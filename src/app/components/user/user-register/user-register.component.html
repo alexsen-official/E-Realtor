@@ -1,0 +1,77 @@
+<mat-card class="mx-auto col-4">
+  <mat-card-title>Register</mat-card-title>
+  <mat-card-subtitle>All fields marked with asterisk are required</mat-card-subtitle>
+
+  <form class="d-flex flex-column" [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput type="text" formControlName="name">
+      <mat-icon matPrefix>account_circle</mat-icon>
+
+      <mat-error>
+        <span *ngIf="name.hasError('required')">Name is required!</span>
+        <span *ngIf="name.hasError('minlength')">Name must contain at least {{ minNameLength }} characters!</span>
+        <span *ngIf="name.hasError('maxlength')">Name must not be longer than {{ maxNameLength }} characters!</span>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email">
+      <mat-icon matPrefix>email</mat-icon>
+
+      <mat-error>
+        <span *ngIf="email.hasError('required')">Email is required!</span>
+        <span *ngIf="email.hasError('email')">Email is invalid!</span>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Phone number</mat-label>
+      <input matInput type="tel" formControlName="phone">
+      <mat-icon matPrefix>phone</mat-icon>
+
+      <mat-error>
+        <span *ngIf="phone.hasError('required')">Phone number is required!</span>
+        <span *ngIf="phone.hasError('minlength')">Name must contain at least {{ phoneLength }} digits!</span>
+        <span *ngIf="phone.hasError('maxlength')">Phone number must not be longer than {{ phoneLength }} digits!</span>
+        <span *ngIf="phone.hasError('pattern')">Phone number is invalid!</span>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" formControlName="password">
+      <mat-icon matPrefix>security</mat-icon>
+
+      <mat-error>
+        <span *ngIf="password.hasError('required')">Password is required!</span>
+        <span *ngIf="password.hasError('minlength')">Password must contain at least {{ minPasswordLength }} characters!</span>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Confirm password</mat-label>
+      <input matInput type="password" formControlName="confirmPassword">
+      <mat-icon matPrefix>security</mat-icon>
+
+      <mat-error>
+        <span *ngIf="confirmPassword.hasError('required')">Password confirmation is required!</span>
+        <span *ngIf="registrationForm.hasError('passwordsMismatch')">Passwords do not match!</span>
+      </mat-error>
+    </mat-form-field>
+
+    <div class="d-flex gap-2">
+      <button mat-flat-button color="primary" type="submit" [disabled]="registrationForm.invalid">
+        <mat-icon inline>check</mat-icon>
+        <span class="ms-1">Submit</span>
+      </button>
+
+      <button mat-flat-button color="warn" type="reset">
+        <mat-icon inline>close</mat-icon>
+        <span class="ms-1">Reset</span>
+      </button>
+    </div>
+  </form>
+</mat-card>
+

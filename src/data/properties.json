@@ -1,0 +1,41 @@
+[
+  {
+    "id": 1,
+    "name": "Birta House",
+    "image": "prop-1",
+    "forSell": true,
+    "type": "house",
+    "price": 12000
+  },
+  {
+    "id": 2,
+    "name": "Arose Villa",
+    "image": "prop-2",
+    "forSell": true,
+    "type": "house",
+    "price": 13800
+  },
+  {
+    "id": 3,
+    "name": "Birta House",
+    "image": "prop-3",
+    "forSell": false,
+    "type": "house",
+    "price": 11250
+  },
+  {
+    "id": 4,
+    "name": "Macro Home",
+    "image": "prop-4",
+    "forSell": true,
+    "type": "flat",
+    "price": 16700
+  },
+  {
+    "id": 5,
+    "name": "Pearl White House",
+    "forSell": true,
+    "type": "house",
+    "price": 14500
+  }
+]

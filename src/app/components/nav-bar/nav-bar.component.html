@@ -1,0 +1,37 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row class="justify-content-between">
+    <div class="d-flex gap-2">
+      <button mat-button routerLink="/">
+        <mat-icon inline>home</mat-icon>
+        <span class="ms-1">E-Realtor</span>
+      </button>
+
+      <button mat-button routerLinkActive="mat-flat-button" routerLink="/" [routerLinkActiveOptions]="{ exact: true }">
+        <mat-icon inline>shopping_cart</mat-icon>
+        <span class="ms-1">Buy</span>
+      </button>
+
+      <button mat-button routerLinkActive="mat-flat-button" routerLink="/rent-property">
+        <mat-icon inline>access_time</mat-icon>
+        <span class="ms-1">Rent</span>
+      </button>
+
+      <button mat-button routerLinkActive="mat-flat-button" routerLink="/add-property">
+        <mat-icon inline>add_circle_outline</mat-icon>
+        <span class="ms-1">Add property</span>
+      </button>
+    </div>
+
+    <div class="d-flex gap-2">
+      <button mat-button routerLinkActive="mat-flat-button" routerLink="/user/register">
+        <mat-icon inline>person_add</mat-icon>
+        <span class="ms-1">Register</span>
+      </button>
+
+      <button mat-button routerLinkActive="mat-flat-button" routerLink="/user/login">
+        <mat-icon inline>exit_to_app</mat-icon>
+        <span class="ms-1">Login</span>
+      </button>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>

@@ -1,0 +1,28 @@
+<mat-card>
+  <mat-card-title>{{ property.name }}</mat-card-title>
+  <mat-card-subtitle>{{ property.type }}</mat-card-subtitle>
+
+  <img mat-card-image *ngIf="property.image; else noImage" src="assets/images/{{ property.image }}.jpg"/>
+
+  <ng-template #noImage>
+    <img mat-card-image src="../../../../assets/images/no-image.jpg"/>
+  </ng-template>
+
+  <mat-card-content>
+    <p><b>{{ property.price | currency }}</b></p>
+  </mat-card-content>
+
+  <mat-divider inset></mat-divider>
+
+  <div class="d-flex gap-2 pt-2">
+    <button mat-flat-button color="primary" routerLink="/property-detail/{{ property.id }}">
+      <mat-icon inline>border_color</mat-icon>
+      <span class="ms-1">Edit</span>
+    </button>
+
+    <button mat-stroked-button>
+      <mat-icon inline>contacts</mat-icon>
+      <span class="ms-1">Contacts</span>
+    </button>
+  </div>
+</mat-card>
