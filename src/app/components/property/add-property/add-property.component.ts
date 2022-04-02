@@ -1,16 +1,19 @@
 import {
   Component,
-  OnInit
+  OnInit,
+  ViewChild
 } from '@angular/core';
 
 import {
   FormControl,
   FormGroup,
+  FormGroupDirective,
   FormBuilder,
   Validators
 } from '@angular/forms';
 
 import { IPropertyType } from '../../../interfaces/property-type.interface';
+import { SnackBarService } from '../../../services/snack-bar/snack-bar.service';
 
 @Component({
   selector: 'app-add-property',
@@ -18,6 +21,8 @@ import { IPropertyType } from '../../../interfaces/property-type.interface';
   styleUrls: ['./add-property.component.css']
 })
 export class AddPropertyComponent implements OnInit {
+  @ViewChild(FormGroupDirective) formDirective!: FormGroupDirective;
+
   addPropertyForm!: FormGroup;
 
   propertyTypes: IPropertyType[] = [
@@ -50,7 +55,8 @@ export class AddPropertyComponent implements OnInit {
     return this.addPropertyForm.get('price') as FormControl;
   }
 
-  constructor(private _formBuilder: FormBuilder) { }
+  constructor(private _formBuilder: FormBuilder,
+              private _snackBarService: SnackBarService) { }
 
   ngOnInit(): void {
     this.createAddPropertyForm();
@@ -65,6 +71,14 @@ export class AddPropertyComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log(this.addPropertyForm);
+    if (this.addPropertyForm.valid) {
+      this.addPropertyForm.reset();
+      this.formDirective.resetForm();
+
+      this._snackBarService.openSnackBar('You have successfully added the property!');
+    }
+    else {
+      this._snackBarService.openSnackBar('Kindly provide all required fields!');
+    }
   }
 }

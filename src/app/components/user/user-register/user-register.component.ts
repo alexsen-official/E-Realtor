@@ -1,6 +1,7 @@
 import {
   Component,
-  OnInit
+  OnInit,
+  ViewChild
 } from '@angular/core';
 
 import { IUser } from '../../../interfaces/user.interface';
@@ -12,6 +13,7 @@ import {
   AbstractControl,
   FormControl,
   FormGroup,
+  FormGroupDirective,
   FormBuilder,
   Validators,
   ValidationErrors
@@ -23,6 +25,8 @@ import {
   styleUrls: ['./user-register.component.css']
 })
 export class UserRegisterComponent implements OnInit {
+  @ViewChild(FormGroupDirective) formDirective!: FormGroupDirective;
+
   registrationForm!: FormGroup;
 
   user!: IUser;
@@ -92,12 +96,14 @@ export class UserRegisterComponent implements OnInit {
   onSubmit(): void {
     if (this.registrationForm.valid) {
       this._userService.addUser(this.getUserData());
-      this.registrationForm.reset();
 
-      this._snackBarService.openSnackBar('Congratulation, you are successfully registered!');
+      this.registrationForm.reset();
+      this.formDirective.resetForm();
+
+      this._snackBarService.openSnackBar('You have successfully registered!');
     }
     else {
-      this._snackBarService.openSnackBar('Kindly provide all the required fields!');
+      this._snackBarService.openSnackBar('Kindly provide all required fields!');
     }
   }
 }

@@ -1,14 +1,21 @@
 import {
   Component,
-  OnInit
+  OnInit,
+  ViewChild
 } from '@angular/core';
 
 import {
   FormControl,
   FormGroup,
+  FormGroupDirective,
   FormBuilder,
   Validators
 } from '@angular/forms';
+
+import { Router } from '@angular/router';
+
+import { AuthService } from '../../../services/auth/auth.service';
+import { SnackBarService } from '../../../services/snack-bar/snack-bar.service';
 
 @Component({
   selector: 'app-user-login',
@@ -16,6 +23,8 @@ import {
   styleUrls: ['./user-login.component.css']
 })
 export class UserLoginComponent implements OnInit {
+  @ViewChild(FormGroupDirective) formDirective!: FormGroupDirective;
+
   loginForm!: FormGroup;
 
   minPasswordLength: number = 8;
@@ -28,7 +37,10 @@ export class UserLoginComponent implements OnInit {
     return this.loginForm.get('password') as FormControl;
   }
 
-  constructor(private _formBuilder: FormBuilder) { }
+  constructor(private _formBuilder: FormBuilder,
+              private _router: Router,
+              private _authService: AuthService,
+              private _snackBarService: SnackBarService) { }
 
   ngOnInit(): void {
     this.createLoginForm();
@@ -42,6 +54,24 @@ export class UserLoginComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log(this.loginForm);
+    if (this.loginForm.valid) {
+      const token = this._authService.authUser(this.loginForm.value);
+
+      this.loginForm.reset();
+      this.formDirective.resetForm();
+
+      if (token) {
+        localStorage.setItem('token', token.name);
+
+        this._router.navigate(['/']).then();
+        this._snackBarService.openSnackBar('You have successfully logged in!');
+      }
+      else {
+        this._snackBarService.openSnackBar('Invalid email address or password!');
+      }
+    }
+    else {
+      this._snackBarService.openSnackBar('Kindly provide all required fields!');
+    }
   }
 }

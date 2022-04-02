@@ -15,6 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
@@ -25,9 +26,11 @@ import { AddPropertyComponent } from './components/property/add-property/add-pro
 import { UserLoginComponent } from './components/user/user-login/user-login.component';
 import { UserRegisterComponent } from './components/user/user-register/user-register.component';
 
-import { HousingService } from "./services/housing/housing.service";
-import { UserService } from "./services/user/user.service";
-import {SnackBarService} from "./services/snack-bar/snack-bar.service";
+import { HousingService } from './services/housing/housing.service';
+import { UserService } from './services/user/user.service';
+import { AuthService } from './services/auth/auth.service';
+import { SnackBarService } from './services/snack-bar/snack-bar.service';
+
 
 @NgModule({
   declarations: [
@@ -55,11 +58,13 @@ import {SnackBarService} from "./services/snack-bar/snack-bar.service";
     MatInputModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatMenuModule
   ],
   providers: [
     HousingService,
     UserService,
+    AuthService,
     SnackBarService
   ],
   bootstrap: [AppComponent]

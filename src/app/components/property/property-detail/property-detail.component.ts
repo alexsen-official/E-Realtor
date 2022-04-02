@@ -29,11 +29,11 @@ export class PropertyDetailComponent implements OnInit {
 
   onNext() {
     this.id++;
-    this._router.navigate(['/property-detail', this.id]);
+    this._router.navigate(['/property-detail', this.id]).then();
   }
 
   onPrevious() {
     this.id--;
-    this._router.navigate(['/property-detail', this.id]);
+    this._router.navigate(['/property-detail', this.id]).then();
   }
 }
