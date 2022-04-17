@@ -1,21 +1,30 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { lastValueFrom } from 'rxjs';
 
 import { IProperty } from '../../interfaces/property.interface';
-import { IPropertyType } from '../../interfaces/property-type.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HousingService {
-  constructor(private _http: HttpClient) { }
+  constructor(private readonly _http: HttpClient) { }
 
-  getProperties(): Observable<IProperty[]> {
-    return this._http.get<IProperty[]>('data/properties.json');
+  async getProperties(forSell: boolean): Promise<IProperty[]> {
+    let properties: IProperty[] = await lastValueFrom(
+      this._http.get<IProperty[]>('data/properties.json')
+    );
+
+    properties.push(...JSON.parse(localStorage.getItem('properties') || '[]'));
+    return properties.filter(property => property.forSell === forSell);
   }
 
-  getPropertyTypes(): Observable<IPropertyType[]> {
-    return this._http.get<IPropertyType[]>('data/property-types.json');
+  addProperty(property: IProperty) : void {
+    let properties = JSON.parse(localStorage.getItem('properties') || '[]');
+
+    property.id = properties.length + 1;
+
+    properties.push(property);
+    localStorage.setItem('properties', JSON.stringify(properties));
   }
 }

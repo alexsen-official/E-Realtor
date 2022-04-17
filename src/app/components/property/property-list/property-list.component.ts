@@ -1,8 +1,4 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { IProperty } from '../../../interfaces/property.interface';
@@ -17,25 +13,14 @@ export class PropertyListComponent implements OnInit {
   forSell: boolean = true;
   properties: IProperty[] = [];
 
-  constructor(private _activatedRoute: ActivatedRoute,
-              private _housingService: HousingService) { }
+  constructor(private readonly _activatedRoute: ActivatedRoute,
+              private readonly _housingService: HousingService) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     if (this._activatedRoute.snapshot.url.toString()) {
       this.forSell = false;
     }
 
-    this._housingService
-      .getProperties()
-      .subscribe(
-      data => {
-        for (let property of data) {
-          if (property.forSell === this.forSell) {
-            this.properties.push(property);
-          }
-        }
-      },
-      error => console.log(error)
-      );
+    this.properties = await this._housingService.getProperties(this.forSell);
   }
 }

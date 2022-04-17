@@ -8,9 +8,9 @@ export class UserService {
   constructor() { }
 
   addUser(user: IUser): void {
-    let users = JSON.parse(localStorage.getItem('Users') || '[]');
+    let users = JSON.parse(localStorage.getItem('users') || '[]');
 
     users.push(user);
-    localStorage.setItem('Users', JSON.stringify(users));
+    localStorage.setItem('users', JSON.stringify(users));
   }
 }

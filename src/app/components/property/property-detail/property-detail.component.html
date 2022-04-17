@@ -2,7 +2,14 @@
 
 <p>Property id is {{ id }}!</p>
 
-<div class="d-flex gap-2">
-  <button mat-raised-button color="primary" (click)="onPrevious()">Previous</button>
-  <button mat-raised-button color="primary" (click)="onNext()">Next</button>
+<div fxLayoutGap="0.5rem">
+  <button mat-raised-button color="primary" (click)="onPrevious()">
+    <mat-icon inline>navigate_before</mat-icon>
+    <span fxFlexOffset="0.25rem">Previous</span>
+  </button>
+
+  <button mat-raised-button color="primary" (click)="onNext()">
+    <span>Next</span>
+    <mat-icon fxFlexOffset="0.25rem" inline>navigate_next</mat-icon>
+  </button>
 </div>

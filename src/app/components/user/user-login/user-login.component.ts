@@ -1,18 +1,12 @@
-import {
-  Component,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import {
+  FormBuilder,
   FormControl,
   FormGroup,
-  FormGroupDirective,
-  FormBuilder,
   Validators
 } from '@angular/forms';
-
-import { Router } from '@angular/router';
 
 import { AuthService } from '../../../services/auth/auth.service';
 import { SnackBarService } from '../../../services/snack-bar/snack-bar.service';
@@ -23,12 +17,11 @@ import { SnackBarService } from '../../../services/snack-bar/snack-bar.service';
   styleUrls: ['./user-login.component.css']
 })
 export class UserLoginComponent implements OnInit {
-  @ViewChild(FormGroupDirective) formDirective!: FormGroupDirective;
-
   loginForm!: FormGroup;
 
   minPasswordLength: number = 8;
 
+  // region Getters
   get email() {
     return this.loginForm.get('email') as FormControl;
   }
@@ -36,20 +29,24 @@ export class UserLoginComponent implements OnInit {
   get password() {
     return this.loginForm.get('password') as FormControl;
   }
+  // endregion
 
-  constructor(private _formBuilder: FormBuilder,
-              private _router: Router,
-              private _authService: AuthService,
-              private _snackBarService: SnackBarService) { }
+  constructor(private readonly _formBuilder: FormBuilder,
+              private readonly _router: Router,
+              private readonly _authService: AuthService,
+              private readonly _snackBar: SnackBarService) { }
 
   ngOnInit(): void {
-    this.createLoginForm();
-  }
-
-  createLoginForm(): void {
     this.loginForm = this._formBuilder.group({
-      email: [null, [Validators.required, Validators.email]],
-      password: [null, [Validators.required, Validators.minLength(this.minPasswordLength)]]
+      email: [null, [
+        Validators.required,
+        Validators.email
+      ]],
+
+      password: [null, [
+        Validators.required,
+        Validators.minLength(this.minPasswordLength)
+      ]]
     })
   }
 
@@ -57,21 +54,18 @@ export class UserLoginComponent implements OnInit {
     if (this.loginForm.valid) {
       const token = this._authService.authUser(this.loginForm.value);
 
-      this.loginForm.reset();
-      this.formDirective.resetForm();
-
       if (token) {
         localStorage.setItem('token', token.name);
 
         this._router.navigate(['/']).then();
-        this._snackBarService.openSnackBar('You have successfully logged in!');
+        this._snackBar.open('You have successfully logged in!');
       }
       else {
-        this._snackBarService.openSnackBar('Invalid email address or password!');
+        this._snackBar.open('Invalid email address or password!');
       }
     }
     else {
-      this._snackBarService.openSnackBar('Kindly provide all required fields!');
+      this._snackBar.open('Kindly provide all required fields!');
     }
   }
 }

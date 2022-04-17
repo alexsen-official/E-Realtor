@@ -1,3 +1,7 @@
-<div class="row gy-4">
-  <app-property-card class="col-sm-6 col-md-4 col-lg-3" *ngFor="let property of properties" [property]="property"></app-property-card>
+<div fxLayout="row wrap" fxLayoutGap="2rem grid">
+  <div fxFlex.gt-lg="25%" fxFlex.gt-md="33.3%"
+       fxFlex.gt-sm="50%" fxFlex.gt-xs="100%"
+       *ngFor="let property of properties">
+    <app-property-card [property]="property"></app-property-card>
+  </div>
 </div>

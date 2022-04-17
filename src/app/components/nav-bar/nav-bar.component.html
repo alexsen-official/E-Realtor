@@ -1,64 +1,66 @@
 <mat-toolbar color="primary">
-  <mat-toolbar-row class="justify-content-between">
-    <div class="d-flex gap-2">
+  <mat-toolbar-row fxLayoutAlign="space-between center">
+    <nav fxLayoutGap="0.5rem">
       <button mat-button routerLink="/">
         <mat-icon inline>home</mat-icon>
-        <span class="ms-1">E-Realtor</span>
+        <span fxFlexOffset="0.25rem">E-Realtor</span>
       </button>
 
-      <button mat-button routerLinkActive="mat-flat-button" routerLink="/" [routerLinkActiveOptions]="{ exact: true }">
+      <button mat-button routerLink="/" routerLinkActive="mat-flat-button" [routerLinkActiveOptions]="{ exact: true }">
         <mat-icon inline>shopping_cart</mat-icon>
-        <span class="ms-1">Buy</span>
+        <span fxFlexOffset="0.25rem">Buy</span>
       </button>
 
-      <button mat-button routerLinkActive="mat-flat-button" routerLink="/rent-property">
+      <button mat-button routerLink="/rent-property" routerLinkActive="mat-flat-button">
         <mat-icon inline>access_time</mat-icon>
-        <span class="ms-1">Rent</span>
+        <span fxFlexOffset="0.25rem">Rent</span>
       </button>
 
-      <button mat-button routerLinkActive="mat-flat-button" routerLink="/add-property">
+      <button mat-button routerLink="/add-property" routerLinkActive="mat-flat-button">
         <mat-icon inline>add_circle_outline</mat-icon>
-        <span class="ms-1">Add property</span>
+        <span fxFlexOffset="0.25rem">Add property</span>
       </button>
-    </div>
+    </nav>
 
-    <button mat-button *ngIf="loggedIn(); else loggedOut" [matMenuTriggerFor]="menu">
-      <mat-icon inline>keyboard_arrow_down</mat-icon>
-      <span class="ms-1">Welcome, {{ authorizedUser }}</span>
-    </button>
-
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item>
-        <mat-icon>dashboard</mat-icon>
-        <span>View dashboard</span>
+    <ng-container *ngIf="loggedId(); else loggedOut">
+      <button mat-button [matMenuTriggerFor]="menu">
+        <mat-icon inline>keyboard_arrow_down</mat-icon>
+        <span fxFlexOffset="0.25rem">Welcome, {{ user }}</span>
       </button>
 
-      <button mat-menu-item>
-        <mat-icon>account_circle</mat-icon>
-        <span>My profile</span>
-      </button>
-
-      <button mat-menu-item>
-        <mat-icon>vpn_key</mat-icon>
-        <span>Change password</span>
-      </button>
-
-      <button mat-menu-item (click)="onLogout()">
-        <mat-icon>meeting_room</mat-icon>
-        <span>Logout</span>
-      </button>
-    </mat-menu>
-
-    <ng-template #loggedOut>
-      <div class="d-flex gap-2">
-        <button mat-button routerLinkActive="mat-flat-button" routerLink="/user/register">
-          <mat-icon inline>person_add</mat-icon>
-          <span class="ms-1">Register</span>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>dashboard</mat-icon>
+          <span>View dashboard</span>
         </button>
 
-        <button mat-button routerLinkActive="mat-flat-button" routerLink="/user/login">
+        <button mat-menu-item>
+          <mat-icon>account_circle</mat-icon>
+          <span>My profile</span>
+        </button>
+
+        <button mat-menu-item>
+          <mat-icon>vpn_key</mat-icon>
+          <span>Change password</span>
+        </button>
+
+        <button mat-menu-item (click)="onLogout()">
+          <mat-icon>meeting_room</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
+    </ng-container>
+
+    <ng-template #loggedOut>
+      <div fxLayoutGap="0.5rem">
+        <button mat-button routerLink="/user/register" routerLinkActive="mat-flat-button">
+          <mat-icon inline>person_add</mat-icon>
+          <span fxFlexOffset="0.25rem">Register</span>
+        </button>
+
+        <button mat-button routerLink="/user/login" routerLinkActive="mat-flat-button">
           <mat-icon inline>exit_to_app</mat-icon>
-          <span class="ms-1">Login</span>
+          <span fxFlexOffset="0.25rem">Login</span>
         </button>
       </div>
     </ng-template>

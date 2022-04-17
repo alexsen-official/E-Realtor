@@ -1,23 +1,19 @@
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
 import {
-  Component,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+  FormBuilder,
+  FormControl,
+  AbstractControl,
+  FormGroup,
+  Validators,
+  ValidationErrors
+} from '@angular/forms';
 
 import { IUser } from '../../../interfaces/user.interface';
 
 import { UserService } from '../../../services/user/user.service';
 import { SnackBarService } from '../../../services/snack-bar/snack-bar.service';
-
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  FormGroupDirective,
-  FormBuilder,
-  Validators,
-  ValidationErrors
-} from '@angular/forms';
 
 @Component({
   selector: 'app-user-register',
@@ -25,10 +21,7 @@ import {
   styleUrls: ['./user-register.component.css']
 })
 export class UserRegisterComponent implements OnInit {
-  @ViewChild(FormGroupDirective) formDirective!: FormGroupDirective;
-
-  registrationForm!: FormGroup;
-
+  registerForm!: FormGroup;
   user!: IUser;
 
   minNameLength: number = 5;
@@ -38,42 +31,67 @@ export class UserRegisterComponent implements OnInit {
 
   minPasswordLength: number = 8;
 
+  // region Getters
   get name() {
-    return this.registrationForm.get('name') as FormControl;
+    return this.registerForm.get('name') as FormControl;
   }
 
   get email() {
-    return this.registrationForm.get('email') as FormControl;
+    return this.registerForm.get('email') as FormControl;
   }
 
   get phone() {
-    return this.registrationForm.get('phone') as FormControl;
+    return this.registerForm.get('phone') as FormControl;
   }
 
   get password() {
-    return this.registrationForm.get('password') as FormControl;
+    return this.registerForm.get('password') as FormControl;
   }
 
   get confirmPassword() {
-    return this.registrationForm.get('confirmPassword') as FormControl;
+    return this.registerForm.get('confirmPassword') as FormControl;
   }
+  // endregion
 
-  constructor(private _formBuilder: FormBuilder,
-              private _userService: UserService,
-              private _snackBarService: SnackBarService) { }
+  constructor(private readonly _formBuilder: FormBuilder,
+              private readonly _router: Router,
+              private readonly _userService: UserService,
+              private readonly _snackBar: SnackBarService) { }
 
   ngOnInit(): void {
-    this.createRegistrationForm();
-  }
+    this.registerForm = this._formBuilder.group({
+      name: [null, [
+        Validators.required,
+        Validators.minLength(this.minNameLength),
+        Validators.maxLength(this.maxNameLength)
+      ]],
 
-  createRegistrationForm(): void {
-    this.registrationForm = this._formBuilder.group({
-      name: [null, [Validators.required, Validators.minLength(this.minNameLength), Validators.maxLength(this.maxNameLength)]],
-      email: [null, [Validators.required, Validators.email]],
-      phone: [null, [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(this.phoneLength), Validators.maxLength(this.phoneLength)]],
-      password: [null, [Validators.required, Validators.minLength(this.minPasswordLength)]],
-      confirmPassword: [null, Validators.required]
-    }, { validators: this.passwordMatchingValidator })
+      email: [null, [
+        Validators.required,
+        Validators.email
+      ]],
+
+      phone: [null, [
+        Validators.required,
+        Validators.pattern("^[0-9]*$"),
+        Validators.minLength(this.phoneLength),
+        Validators.maxLength(this.phoneLength)
+      ]],
+
+      password: [null, [
+        Validators.required,
+        Validators.minLength(this.minPasswordLength)
+      ]],
+
+      confirmPassword: [null, [
+        Validators.required
+      ]]
+    },
+    {
+      validators: [
+        this.passwordMatchingValidator
+      ]
+    })
   }
 
   passwordMatchingValidator(control: AbstractControl): ValidationErrors | null {
@@ -84,7 +102,7 @@ export class UserRegisterComponent implements OnInit {
     return { passwordsMismatch: true };
   }
 
-  getUserData(): IUser {
+  getUser(): IUser {
     return this.user = {
       name: this.name.value,
       phone: this.phone.value,
@@ -94,16 +112,15 @@ export class UserRegisterComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.registrationForm.valid) {
-      this._userService.addUser(this.getUserData());
+    if (this.registerForm.valid) {
+      this._userService.addUser(this.getUser());
+      localStorage.setItem('token', this.user.name);
 
-      this.registrationForm.reset();
-      this.formDirective.resetForm();
-
-      this._snackBarService.openSnackBar('You have successfully registered!');
+      this._router.navigate(['/']).then();
+      this._snackBar.open('You have successfully registered and logged in!');
     }
     else {
-      this._snackBarService.openSnackBar('Kindly provide all required fields!');
+      this._snackBar.open('Kindly provide all required fields!');
     }
   }
 }

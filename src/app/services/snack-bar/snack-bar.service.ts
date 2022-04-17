@@ -15,10 +15,10 @@ export class SnackBarService {
   horizontalPosition: MatSnackBarHorizontalPosition = 'end';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
-  constructor(private _snackBar: MatSnackBar) { }
+  constructor(private readonly _matSnackBar: MatSnackBar) { }
 
-  openSnackBar(message: string, action: string = 'Close') {
-    this._snackBar.open(message, action, {
+  open(message: string, action: string = 'Close') {
+    this._matSnackBar.open(message, action, {
       duration: this.durationInSeconds * 1000,
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,

@@ -5,11 +5,10 @@ import { IUser } from '../../interfaces/user.interface';
   providedIn: 'root'
 })
 export class AuthService {
-
   constructor() { }
 
   authUser(user: IUser) {
-    let users: IUser[] = JSON.parse(localStorage.getItem('Users') || '[]');
+    const users: IUser[] = JSON.parse(localStorage.getItem('Users') || '[]');
 
     return users.find(
       parameter => parameter.email === user.email && parameter.password === user.password

@@ -3,8 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
-
-import { AppRoutingModule } from './app-routing.module';
+import { FlexModule } from '@angular/flex-layout';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
@@ -16,39 +15,45 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+
+import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
-import { PropertyCardComponent } from './components/property/property-card/property-card.component';
-import { PropertyListComponent } from './components/property/property-list/property-list.component';
-import { PropertyDetailComponent } from './components/property/property-detail/property-detail.component';
 import { AddPropertyComponent } from './components/property/add-property/add-property.component';
+import { PropertyCardComponent } from './components/property/property-card/property-card.component';
+import { PropertyDetailComponent } from './components/property/property-detail/property-detail.component';
+import { PropertyListComponent } from './components/property/property-list/property-list.component';
 import { UserLoginComponent } from './components/user/user-login/user-login.component';
 import { UserRegisterComponent } from './components/user/user-register/user-register.component';
 
-import { HousingService } from './services/housing/housing.service';
-import { UserService } from './services/user/user.service';
 import { AuthService } from './services/auth/auth.service';
+import { HousingService } from './services/housing/housing.service';
 import { SnackBarService } from './services/snack-bar/snack-bar.service';
-
+import { UserService } from './services/user/user.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavBarComponent,
-    PropertyCardComponent,
-    PropertyListComponent,
-    PropertyDetailComponent,
     AddPropertyComponent,
+    PropertyCardComponent,
+    PropertyDetailComponent,
+    PropertyListComponent,
     UserLoginComponent,
-    UserRegisterComponent,
-  ],
+    UserRegisterComponent
+],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    AppRoutingModule,
+    FlexModule,
 
     MatToolbarModule,
     MatCardModule,
@@ -59,13 +64,20 @@ import { SnackBarService } from './services/snack-bar/snack-bar.service';
     MatFormFieldModule,
     MatSelectModule,
     MatSnackBarModule,
-    MatMenuModule
+    MatMenuModule,
+    MatStepperModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    MatRadioModule,
+    MatButtonToggleModule,
+
+    AppRoutingModule
   ],
   providers: [
-    HousingService,
-    UserService,
     AuthService,
-    SnackBarService
+    HousingService,
+    SnackBarService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,8 +1,4 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
-
+import { Component } from '@angular/core';
 import { SnackBarService } from '../../services/snack-bar/snack-bar.service';
 
 @Component({
@@ -10,20 +6,17 @@ import { SnackBarService } from '../../services/snack-bar/snack-bar.service';
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.css']
 })
-export class NavBarComponent implements OnInit {
-  authorizedUser: string | null = null;
+export class NavBarComponent {
+  user: string | null = null;
 
-  constructor(private _snackBarService: SnackBarService) { }
+  constructor(private readonly _snackBar: SnackBarService) { }
 
-  ngOnInit(): void { }
-
-  loggedIn() {
-    this.authorizedUser = localStorage.getItem('token');
-    return this.authorizedUser;
+  loggedId(): string | null {
+    return this.user = localStorage.getItem('token');
   }
 
-  onLogout() {
+  onLogout(): void {
     localStorage.removeItem('token');
-    this._snackBarService.openSnackBar('You have successfully logged out!');
+    this._snackBar.open('You have successfully logged out!');
   }
 }
