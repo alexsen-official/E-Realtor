@@ -3,7 +3,7 @@
     <nav fxLayoutGap="0.5rem">
       <button mat-button routerLink="/">
         <mat-icon inline>home</mat-icon>
-        <span fxFlexOffset="0.25rem">E-Realtor</span>
+        <span fxFlexOffset="0.25rem">{{ title }}</span>
       </button>
 
       <button mat-button routerLink="/" routerLinkActive="mat-flat-button" [routerLinkActiveOptions]="{ exact: true }">
@@ -25,21 +25,21 @@
     <ng-container *ngIf="loggedId(); else loggedOut">
       <button mat-button [matMenuTriggerFor]="menu">
         <mat-icon inline>keyboard_arrow_down</mat-icon>
-        <span fxFlexOffset="0.25rem">Welcome, {{ user }}</span>
+        <span fxFlexOffset="0.25rem">Welcome, {{ token }}</span>
       </button>
 
       <mat-menu #menu="matMenu">
-        <button mat-menu-item>
+        <button mat-menu-item disabled>
           <mat-icon>dashboard</mat-icon>
           <span>View dashboard</span>
         </button>
 
-        <button mat-menu-item>
+        <button mat-menu-item disabled>
           <mat-icon>account_circle</mat-icon>
           <span>My profile</span>
         </button>
 
-        <button mat-menu-item>
+        <button mat-menu-item disabled>
           <mat-icon>vpn_key</mat-icon>
           <span>Change password</span>
         </button>

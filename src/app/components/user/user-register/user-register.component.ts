@@ -1,37 +1,59 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import {
   FormBuilder,
   FormControl,
-  AbstractControl,
   FormGroup,
-  Validators,
-  ValidationErrors
+  Validators
 } from '@angular/forms';
 
-import { IUser } from '../../../interfaces/user.interface';
-
-import { UserService } from '../../../services/user/user.service';
-import { SnackBarService } from '../../../services/snack-bar/snack-bar.service';
+import { UserService, SnackBarService } from '../../../services';
 
 @Component({
   selector: 'app-user-register',
   templateUrl: './user-register.component.html',
   styleUrls: ['./user-register.component.css']
 })
-export class UserRegisterComponent implements OnInit {
-  registerForm!: FormGroup;
-  user!: IUser;
+export class UserRegisterComponent {
+  readonly minNameLength: number = 5;
+  readonly maxNameLength: number = 32;
 
-  minNameLength: number = 5;
-  maxNameLength: number = 32;
+  readonly phoneLength: number = 10;
 
-  phoneLength: number = 10;
+  readonly maxEmailLength: number = 320;
 
-  minPasswordLength: number = 8;
+  readonly minPasswordLength: number = 10;
+  readonly maxPasswordLength: number = 128;
 
-  // region Getters
+  registerForm: FormGroup = this._formBuilder.group({
+    name: [null, [
+      Validators.required,
+      Validators.minLength(this.minNameLength),
+      Validators.maxLength(this.maxNameLength)
+    ]],
+
+    email: [null, [
+      Validators.required,
+      Validators.email,
+      Validators.maxLength(this.maxEmailLength)
+    ]],
+
+    phone: [null, [
+      Validators.required,
+      Validators.pattern(/^\d*$/),
+      Validators.minLength(this.phoneLength),
+      Validators.maxLength(this.phoneLength)
+    ]],
+
+    password: [null, [
+      Validators.required,
+      Validators.pattern(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/),
+      Validators.minLength(this.minPasswordLength),
+      Validators.maxLength(this.maxPasswordLength)
+    ]]
+  });
+
   get name() {
     return this.registerForm.get('name') as FormControl;
   }
@@ -48,73 +70,19 @@ export class UserRegisterComponent implements OnInit {
     return this.registerForm.get('password') as FormControl;
   }
 
-  get confirmPassword() {
-    return this.registerForm.get('confirmPassword') as FormControl;
-  }
-  // endregion
-
   constructor(private readonly _formBuilder: FormBuilder,
               private readonly _router: Router,
               private readonly _userService: UserService,
               private readonly _snackBar: SnackBarService) { }
 
-  ngOnInit(): void {
-    this.registerForm = this._formBuilder.group({
-      name: [null, [
-        Validators.required,
-        Validators.minLength(this.minNameLength),
-        Validators.maxLength(this.maxNameLength)
-      ]],
-
-      email: [null, [
-        Validators.required,
-        Validators.email
-      ]],
-
-      phone: [null, [
-        Validators.required,
-        Validators.pattern("^[0-9]*$"),
-        Validators.minLength(this.phoneLength),
-        Validators.maxLength(this.phoneLength)
-      ]],
-
-      password: [null, [
-        Validators.required,
-        Validators.minLength(this.minPasswordLength)
-      ]],
-
-      confirmPassword: [null, [
-        Validators.required
-      ]]
-    },
-    {
-      validators: [
-        this.passwordMatchingValidator
-      ]
-    })
-  }
-
-  passwordMatchingValidator(control: AbstractControl): ValidationErrors | null {
-    if (control.get('password')?.value === control.get('confirmPassword')?.value) {
-      return null;
-    }
-
-    return { passwordsMismatch: true };
-  }
-
-  getUser(): IUser {
-    return this.user = {
-      name: this.name.value,
-      phone: this.phone.value,
-      email: this.email.value,
-      password: this.password.value,
-    }
-  }
-
   onSubmit(): void {
     if (this.registerForm.valid) {
-      this._userService.addUser(this.getUser());
-      localStorage.setItem('token', this.user.name);
+      this._userService
+        .addUser(this.registerForm.value)
+        .subscribe(
+          user => localStorage.setItem('token', user.name),
+          error => console.error(error)
+        );
 
       this._router.navigate(['/']).then();
       this._snackBar.open('You have successfully registered and logged in!');

@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes} from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
-import { PropertyListComponent } from './components/property/property-list/property-list.component';
-import { PropertyDetailComponent } from './components/property/property-detail/property-detail.component';
-import { AddPropertyComponent } from './components/property/add-property/add-property.component';
-import { UserLoginComponent } from './components/user/user-login/user-login.component';
-import { UserRegisterComponent } from './components/user/user-register/user-register.component';
+import {
+  PropertyListComponent,
+  PropertyDetailComponent,
+  AddPropertyComponent,
+  UserLoginComponent,
+  UserRegisterComponent
+} from './components';
 
 const routes: Routes = [
   { path: '', component: PropertyListComponent },

@@ -10,18 +10,18 @@ import {
   providedIn: 'root'
 })
 export class SnackBarService {
-  durationInSeconds: number = 5;
+  duration: number = 5000;
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'end';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
-  constructor(private readonly _matSnackBar: MatSnackBar) { }
+  constructor(private readonly _snackBar: MatSnackBar) { }
 
   open(message: string, action: string = 'Close') {
-    this._matSnackBar.open(message, action, {
-      duration: this.durationInSeconds * 1000,
+    this._snackBar.open(message, action, {
+      duration: this.duration,
       horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
+      verticalPosition: this.verticalPosition
     });
   }
 }

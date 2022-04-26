@@ -1,15 +1,51 @@
-<!--TODO: property-detail component-->
+<mat-card fxFlex="60%" fxFlexOffset="20%">
+  <div fxLayoutAlign="space-between">
+    <div>
+      <mat-card-title>{{ property.name }}</mat-card-title>
+      <mat-card-subtitle>{{ property.propertyType }} with {{ property.BHK }} BHK, in {{ property.city }}</mat-card-subtitle>
+    </div>
 
-<p>Property id is {{ id }}!</p>
+    <mat-card-actions>
+      <button mat-flat-button color="primary">
+        <mat-icon inline>thumb_up</mat-icon>
+        <span fxFlexOffset="0.25rem">Like</span>
+      </button>
 
-<div fxLayoutGap="0.5rem">
-  <button mat-raised-button color="primary" (click)="onPrevious()">
-    <mat-icon inline>navigate_before</mat-icon>
-    <span fxFlexOffset="0.25rem">Previous</span>
-  </button>
+      <button mat-stroked-button>
+        <mat-icon inline>message</mat-icon>
+        <span fxFlexOffset="0.25rem">Message</span>
+      </button>
+    </mat-card-actions>
+  </div>
 
-  <button mat-raised-button color="primary" (click)="onNext()">
-    <span>Next</span>
-    <mat-icon fxFlexOffset="0.25rem" inline>navigate_next</mat-icon>
-  </button>
-</div>
+  <mat-card-content fxLayout="row" fxLayoutGap="2rem">
+    <div fxLayout="column">
+      <span><b>Furnishing type:</b> {{ property.furnishingType }}</span>
+      <span><b>Possession:</b> {{ property.possession | date }}</span>
+      <span><b>Gated community:</b> {{ property.gatedCommunity }}</span>
+      <span><b>Age:</b> {{ property.age }}</span>
+      <span><b>Ready to move:</b> {{ property.readyToMove }}</span>
+    </div>
+
+    <div fxLayout="column">
+      <span><b>Address:</b> {{ property.address }}</span>
+      <span><b>Floor:</b> {{ property.floor }}</span>
+      <span><b>Total floor:</b> {{ property.totalFloor }}</span>
+      <span><b>Landmark:</b> {{ property.landmark }}</span>
+      <span><b>Main entrance:</b> {{ property.mainEntrance }}</span>
+    </div>
+
+    <div fxLayout="column">
+      <span><b>Price:</b> {{ property.price | currency }}</span>
+      <span><b>Security:</b> {{ property.security | currency }}</span>
+      <span><b>Maintenance:</b> {{ property.maintenance | currency }}</span>
+      <span><b>Built area:</b> {{ property.builtArea }}</span>
+      <span><b>Carpet area:</b> {{ property.carpetArea }}</span>
+    </div>
+  </mat-card-content>
+
+  <div>
+    <b>About property:</b>
+    <p>{{ property.description }}</p>
+  </div>
+</mat-card>

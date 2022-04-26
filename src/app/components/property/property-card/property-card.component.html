@@ -1,30 +1,15 @@
-<mat-card>
-  <mat-card-title>{{ property.name }}</mat-card-title>
-  <mat-card-subtitle>{{ property.propertyType }} with {{ property.BHK }} BHK, in {{ property.city }}</mat-card-subtitle>
-
+<mat-card routerLink="/property-detail/{{ property.id }}">
   <img mat-card-image *ngIf="property.image; else noImage"
-       src="assets/images/{{ property.image }}" alt="Property image" />
+       src="assets/images/{{ property.image }}" alt="Property image"/>
 
   <ng-template #noImage>
     <img mat-card-image src="assets/images/no-image.jpg" alt="No image available"/>
   </ng-template>
 
-  <mat-card-content>
-    {{ property.furnishingType }}, {{ property.carpetArea }} square feet<br/>
+  <mat-card-title>{{ property.name }}</mat-card-title>
+
+  <mat-card-subtitle fxLayoutAlign="space-between">
+    <span>{{ property.city }}</span>
     <b>{{ property.price | currency }}</b>
-  </mat-card-content>
-
-  <mat-divider [style.margin-bottom.rem]="0.5" inset></mat-divider>
-
-  <div fxLayoutGap="0.5rem">
-    <button mat-flat-button color="primary" routerLink="/property-detail/{{ property.id }}" [disabled]="previewOnly">
-      <mat-icon inline>assignment</mat-icon>
-      <span fxFlexOffset="0.25rem">Details</span>
-    </button>
-
-    <button mat-stroked-button [disabled]="previewOnly">
-      <mat-icon inline>contacts</mat-icon>
-      <span fxFlexOffset="0.25rem">Contacts</span>
-    </button>
-  </div>
+  </mat-card-subtitle>
 </mat-card>

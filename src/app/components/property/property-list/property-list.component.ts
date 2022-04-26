@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { IProperty } from '../../../interfaces/property.interface';
-import { HousingService } from '../../../services/housing/housing.service';
+import { IProperty } from '../../../interfaces';
+import { PropertyService } from '../../../services';
 
 @Component({
   selector: 'app-property-list',
@@ -14,13 +14,26 @@ export class PropertyListComponent implements OnInit {
   properties: IProperty[] = [];
 
   constructor(private readonly _activatedRoute: ActivatedRoute,
-              private readonly _housingService: HousingService) { }
+              private readonly _propertyService: PropertyService) { }
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit(): void {
     if (this._activatedRoute.snapshot.url.toString()) {
       this.forSell = false;
     }
 
-    this.properties = await this._housingService.getProperties(this.forSell);
+    this.fetchProperties();
+  }
+
+  fetchProperties(): void {
+    this._propertyService
+      .getProperties(this.forSell)
+      .subscribe(
+        properties => this.properties = properties,
+        error => console.error(error)
+      );
+  }
+
+  trackByPropertyId(index: number, property: IProperty): number {
+    return property.id;
   }
 }

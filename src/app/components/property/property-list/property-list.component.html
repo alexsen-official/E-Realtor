@@ -1,7 +1,7 @@
 <div fxLayout="row wrap" fxLayoutGap="2rem grid">
   <div fxFlex.gt-lg="25%" fxFlex.gt-md="33.3%"
        fxFlex.gt-sm="50%" fxFlex.gt-xs="100%"
-       *ngFor="let property of properties">
+       *ngFor="let property of properties; trackBy: trackByPropertyId">
     <app-property-card [property]="property"></app-property-card>
   </div>
 </div>

@@ -1,4 +1,8 @@
-img.mat-card-image {
+.mat-card {
+  cursor: pointer;
+}
+
+.mat-card-image {
   height: 18rem;
   object-fit: cover;
 }

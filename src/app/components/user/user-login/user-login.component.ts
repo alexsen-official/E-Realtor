@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import {
@@ -8,20 +8,19 @@ import {
   Validators
 } from '@angular/forms';
 
-import { AuthService } from '../../../services/auth/auth.service';
-import { SnackBarService } from '../../../services/snack-bar/snack-bar.service';
+import { UserService, SnackBarService } from '../../../services';
 
 @Component({
   selector: 'app-user-login',
   templateUrl: './user-login.component.html',
   styleUrls: ['./user-login.component.css']
 })
-export class UserLoginComponent implements OnInit {
-  loginForm!: FormGroup;
+export class UserLoginComponent {
+  loginForm: FormGroup = this._formBuilder.group({
+    email: [null, Validators.required],
+    password: [null, Validators.required]
+  });
 
-  minPasswordLength: number = 8;
-
-  // region Getters
   get email() {
     return this.loginForm.get('email') as FormControl;
   }
@@ -29,40 +28,30 @@ export class UserLoginComponent implements OnInit {
   get password() {
     return this.loginForm.get('password') as FormControl;
   }
-  // endregion
 
   constructor(private readonly _formBuilder: FormBuilder,
               private readonly _router: Router,
-              private readonly _authService: AuthService,
+              private readonly _userService: UserService,
               private readonly _snackBar: SnackBarService) { }
-
-  ngOnInit(): void {
-    this.loginForm = this._formBuilder.group({
-      email: [null, [
-        Validators.required,
-        Validators.email
-      ]],
-
-      password: [null, [
-        Validators.required,
-        Validators.minLength(this.minPasswordLength)
-      ]]
-    })
-  }
 
   onSubmit(): void {
     if (this.loginForm.valid) {
-      const token = this._authService.authUser(this.loginForm.value);
+      this._userService
+        .authUser(this.loginForm.value)
+        .subscribe(
+          user => {
+            if (user) {
+              localStorage.setItem('token', user.name);
 
-      if (token) {
-        localStorage.setItem('token', token.name);
-
-        this._router.navigate(['/']).then();
-        this._snackBar.open('You have successfully logged in!');
-      }
-      else {
-        this._snackBar.open('Invalid email address or password!');
-      }
+              this._router.navigate(['/']).then();
+              this._snackBar.open('You have successfully logged in!');
+            }
+            else {
+              this._snackBar.open('Invalid email address or password!');
+            }
+          },
+          error => console.error(error)
+        );
     }
     else {
       this._snackBar.open('Kindly provide all required fields!');

@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { SnackBarService } from '../../services/snack-bar/snack-bar.service';
+import { Component, Input } from '@angular/core';
+import { SnackBarService } from '../../services';
 
 @Component({
   selector: 'app-nav-bar',
@@ -7,12 +7,13 @@ import { SnackBarService } from '../../services/snack-bar/snack-bar.service';
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent {
-  user: string | null = null;
+  @Input() title!: string;
+  token: string | null = null;
 
   constructor(private readonly _snackBar: SnackBarService) { }
 
   loggedId(): string | null {
-    return this.user = localStorage.getItem('token');
+    return this.token = localStorage.getItem('token');
   }
 
   onLogout(): void {
