@@ -10,26 +10,14 @@ import { PropertyService } from '../../../services';
   styleUrls: ['./property-detail.component.css']
 })
 export class PropertyDetailComponent implements OnInit {
-  id!: number;
   property!: IProperty;
 
   constructor(private readonly _activatedRoute: ActivatedRoute,
               private readonly _propertyService: PropertyService) { }
 
   ngOnInit(): void {
-    this._activatedRoute.params.subscribe(
-      params => this.id = +params['id']
-    );
-
-    this.fetchProperty();
-  }
-
-  fetchProperty(): void {
-    this._propertyService
-      .getProperty(this.id)
-      .subscribe(
-        property => this.property = property || this.property,
-        error => console.error(error)
-      );
+    this._activatedRoute.data.subscribe(
+      data => this.property = data['property']
+    )
   }
 }

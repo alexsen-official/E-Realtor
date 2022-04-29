@@ -9,10 +9,12 @@ import {
   UserRegisterComponent
 } from './components';
 
+import { PropertyDetailResolverService } from './services';
+
 const routes: Routes = [
   { path: '', component: PropertyListComponent },
   { path: 'rent-property', component: PropertyListComponent },
-  { path: 'property-detail/:id', component: PropertyDetailComponent },
+  { path: 'property-detail/:id', component: PropertyDetailComponent, resolve: { property: PropertyDetailResolverService } },
   { path: 'add-property', component: AddPropertyComponent },
   { path: 'user/login', component: UserLoginComponent },
   { path: 'user/register', component: UserRegisterComponent },

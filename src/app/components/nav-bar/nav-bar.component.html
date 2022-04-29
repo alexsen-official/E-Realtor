@@ -1,25 +1,25 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row fxLayoutAlign="space-between center">
     <nav fxLayoutGap="0.5rem">
-      <button mat-button routerLink="/">
+      <a mat-button routerLink="/">
         <mat-icon inline>home</mat-icon>
         <span fxFlexOffset="0.25rem">{{ title }}</span>
-      </button>
+      </a>
 
-      <button mat-button routerLink="/" routerLinkActive="mat-flat-button" [routerLinkActiveOptions]="{ exact: true }">
+      <a mat-button routerLink="/" routerLinkActive="mat-flat-button" [routerLinkActiveOptions]="{ exact: true }">
         <mat-icon inline>shopping_cart</mat-icon>
         <span fxFlexOffset="0.25rem">Buy</span>
-      </button>
+      </a>
 
-      <button mat-button routerLink="/rent-property" routerLinkActive="mat-flat-button">
+      <a mat-button routerLink="/rent-property" routerLinkActive="mat-flat-button">
         <mat-icon inline>access_time</mat-icon>
         <span fxFlexOffset="0.25rem">Rent</span>
-      </button>
+      </a>
 
-      <button mat-button routerLink="/add-property" routerLinkActive="mat-flat-button">
+      <a mat-button routerLink="/add-property" routerLinkActive="mat-flat-button">
         <mat-icon inline>add_circle_outline</mat-icon>
         <span fxFlexOffset="0.25rem">Add property</span>
-      </button>
+      </a>
     </nav>
 
     <ng-container *ngIf="loggedId(); else loggedOut">
@@ -52,16 +52,16 @@
     </ng-container>
 
     <ng-template #loggedOut>
-      <div fxLayoutGap="0.5rem">
-        <button mat-button routerLink="/user/register" routerLinkActive="mat-flat-button">
+      <div>
+        <a mat-button routerLink="/user/register" routerLinkActive="mat-flat-button">
           <mat-icon inline>person_add</mat-icon>
           <span fxFlexOffset="0.25rem">Register</span>
-        </button>
+        </a>
 
-        <button mat-button routerLink="/user/login" routerLinkActive="mat-flat-button">
+        <a mat-button routerLink="/user/login" routerLinkActive="mat-flat-button">
           <mat-icon inline>exit_to_app</mat-icon>
           <span fxFlexOffset="0.25rem">Login</span>
-        </button>
+        </a>
       </div>
     </ng-template>
   </mat-toolbar-row>

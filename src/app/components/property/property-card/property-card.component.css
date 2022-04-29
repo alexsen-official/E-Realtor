@@ -1,8 +1,13 @@
-.mat-card {
-  cursor: pointer;
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
 .mat-card-image {
   height: 18rem;
   object-fit: cover;
+}
+
+.mat-card-subtitle {
+  margin-bottom: 0;
 }

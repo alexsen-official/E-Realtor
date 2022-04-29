@@ -61,7 +61,7 @@
           <p>BHK</p>
 
           <mat-button-toggle-group formControlName="BHK">
-            <mat-button-toggle fxFlex fxLayout="row" *ngFor="let bhk of [1, 2, 3, 4]" [value]="bhk">{{ bhk }}</mat-button-toggle>
+            <mat-button-toggle fxFlex fxLayout="row" *ngFor="let bhk of [0, 2, 3, 4]" [value]="bhk">{{ bhk }}</mat-button-toggle>
           </mat-button-toggle-group>
 
           <mat-error>

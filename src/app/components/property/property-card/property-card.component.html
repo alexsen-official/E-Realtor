@@ -1,15 +1,17 @@
-<mat-card routerLink="/property-detail/{{ property.id }}">
-  <img mat-card-image *ngIf="property.image; else noImage"
-       src="assets/images/{{ property.image }}" alt="Property image"/>
+<a routerLink="/property-detail/{{ property.id }}">
+  <mat-card mat-ripple>
+    <img mat-card-image *ngIf="property.image; else noImage"
+         src="assets/images/{{ property.image }}" alt="Property image"/>
 
-  <ng-template #noImage>
-    <img mat-card-image src="assets/images/no-image.jpg" alt="No image available"/>
-  </ng-template>
+    <ng-template #noImage>
+      <img mat-card-image src="assets/images/no-image.jpg" alt="No image available"/>
+    </ng-template>
 
-  <mat-card-title>{{ property.name }}</mat-card-title>
+    <mat-card-title>{{ property.name }}</mat-card-title>
 
-  <mat-card-subtitle fxLayoutAlign="space-between">
-    <span>{{ property.city }}</span>
-    <b>{{ property.price | currency }}</b>
-  </mat-card-subtitle>
-</mat-card>
+    <mat-card-subtitle fxLayoutAlign="space-between">
+      <span>{{ property.city }}</span>
+      <b>{{ property.price | currency }}</b>
+    </mat-card-subtitle>
+  </mat-card>
+</a>

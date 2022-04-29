@@ -17,7 +17,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
@@ -39,6 +39,7 @@ import {
 
 import {
   PropertyService,
+  PropertyDetailResolverService,
   SnackBarService,
   UserService
 } from './services';
@@ -75,6 +76,7 @@ import {
         MatInputModule,
         MatMenuModule,
         MatNativeDateModule,
+        MatRippleModule,
         MatSelectModule,
         MatSnackBarModule,
         MatStepperModule,
@@ -83,6 +85,7 @@ import {
     ],
   providers: [
     PropertyService,
+    PropertyDetailResolverService,
     SnackBarService,
     UserService
   ],
