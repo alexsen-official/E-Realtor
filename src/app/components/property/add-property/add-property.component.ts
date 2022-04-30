@@ -8,7 +8,11 @@ import {
   Validators
 } from '@angular/forms';
 
-import { SnackBarService, PropertyService } from '../../../services';
+import {
+  SnackBarService,
+  PropertyService,
+  ValidationErrorService
+} from '../../../services';
 
 @Component({
   selector: 'app-add-property',
@@ -48,6 +52,7 @@ export class AddPropertyComponent {
 
       BHK: [null, [
         Validators.required,
+        Validators.pattern(/^\d*$/),
         Validators.min(1)
       ]],
 
@@ -57,15 +62,28 @@ export class AddPropertyComponent {
     pricingAndArea: this._formBuilder.group({
       price: [null, [
         Validators.required,
+        Validators.pattern(/^\d*$/),
         Validators.min(0)
       ]],
 
-      security: [null, Validators.min(0)],
-      maintenance: [null, Validators.min(0)],
-      builtArea: [null, Validators.min(0)],
+      security: [null, [
+        Validators.pattern(/^\d*$/),
+        Validators.min(0)
+      ]],
+
+      maintenance: [null, [
+        Validators.pattern(/^\d*$/),
+        Validators.min(0)
+      ]],
+
+      builtArea: [null, [
+        Validators.pattern(/^\d*$/),
+        Validators.min(0)
+      ]],
 
       carpetArea: [null, [
         Validators.required,
+        Validators.pattern(/^\d*$/),
         Validators.min(0)
       ]]
     }),
@@ -74,11 +92,13 @@ export class AddPropertyComponent {
       address: [null, Validators.required],
 
       floor: [null, [
+        Validators.pattern(/^\d*$/),
         Validators.min(1),
         Validators.max(128)
       ]],
 
       totalFloor: [null, [
+        Validators.pattern(/^\d*$/),
         Validators.min(1),
         Validators.max(128)
       ]],
@@ -89,7 +109,12 @@ export class AddPropertyComponent {
     otherDetails: this._formBuilder.group({
       readyToMove: [null, Validators.required],
       possession: [null, null],
-      age: [null, Validators.min(0)],
+
+      age: [null, [
+        Validators.pattern(/^\d*$/),
+        Validators.min(0)
+      ]],
+
       gatedCommunity: [null, null],
       mainEntrance: [null, Validators.required],
       description: [null, Validators.maxLength(this.maxDescriptionLength)]
@@ -207,7 +232,8 @@ export class AddPropertyComponent {
   constructor(private readonly _formBuilder: FormBuilder,
               private readonly _router: Router,
               private readonly _snackBar: SnackBarService,
-              private readonly _propertyService: PropertyService) { }
+              private readonly _propertyService: PropertyService,
+              private readonly _validationError: ValidationErrorService) { }
 
   onSubmit(): void {
     if (this.addPropertyForm.valid) {
@@ -225,5 +251,9 @@ export class AddPropertyComponent {
     else {
       this._snackBar.open('Kindly provide all required fields!');
     }
+  }
+
+  getErrorMessage(formControl: FormControl, fieldName: string): string | null {
+    return this._validationError.getErrorMessage(formControl, fieldName);
   }
 }

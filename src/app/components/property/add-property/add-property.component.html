@@ -17,20 +17,14 @@
 
           <mat-hint align="end">{{ name.value?.length || 0 }}/{{ maxNameLength }}</mat-hint>
 
-          <mat-error>
-            <ng-container *ngIf="name.hasError('required')">Name is required!</ng-container>
-            <ng-container *ngIf="name.hasError('minlength')">Name must contain at least {{ minNameLength }} characters!</ng-container>
-            <ng-container *ngIf="name.hasError('maxlength')">Name must not be longer than {{ maxNameLength }} characters!</ng-container>
-          </mat-error>
+          <mat-error>{{ getErrorMessage(name, 'Name') }}</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>City</mat-label>
           <input matInput type="text" formControlName="city"/>
 
-          <mat-error>
-            <ng-container *ngIf="city.hasError('required')">City is required!</ng-container>
-          </mat-error>
+          <mat-error>{{ getErrorMessage(city, 'City') }}</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
@@ -40,9 +34,7 @@
             <mat-option *ngFor="let type of propertyTypes" [value]="type">{{ type }}</mat-option>
           </mat-select>
 
-          <mat-error>
-            <ng-container *ngIf="propertyType.hasError('required')">Property type is required!</ng-container>
-          </mat-error>
+          <mat-error>{{ getErrorMessage(propertyType, 'Property type') }}</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
@@ -52,9 +44,7 @@
             <mat-option *ngFor="let type of furnishingTypes" [value]="type">{{ type }}</mat-option>
           </mat-select>
 
-          <mat-error>
-            <ng-container *ngIf="furnishingType.hasError('required')">Furnishing type is required!</ng-container>
-          </mat-error>
+          <mat-error>{{ getErrorMessage(furnishingType, 'Furnishing type') }}</mat-error>
         </mat-form-field>
 
         <div class="mat-form-field-wrapper">
@@ -64,10 +54,7 @@
             <mat-button-toggle fxFlex fxLayout="row" *ngFor="let bhk of [0, 2, 3, 4]" [value]="bhk">{{ bhk }}</mat-button-toggle>
           </mat-button-toggle-group>
 
-          <mat-error>
-            <ng-container *ngIf="BHK.hasError('required') && BHK.touched">BHK is required!</ng-container>
-            <ng-container *ngIf="BHK.hasError('min')">BHK cannot be less than 1!</ng-container>
-          </mat-error>
+          <mat-error>{{ getErrorMessage(BHK, 'BHK') }}</mat-error>
         </div>
 
         <div class="mat-form-field-wrapper">
@@ -78,9 +65,7 @@
             <mat-button-toggle fxFlex fxLayout="row" [value]="false">Rent</mat-button-toggle>
           </mat-button-toggle-group>
 
-          <mat-error>
-            <ng-container *ngIf="forSell.hasError('required') && forSell.touched">You have to choose what you want to sell or rent!</ng-container>
-          </mat-error>
+          <mat-error>{{ getErrorMessage(forSell, 'Sell or rent') }}</mat-error>
         </div>
 
         <div fxLayoutAlign="end">
@@ -102,10 +87,7 @@
           <mat-label>Price</mat-label>
           <input matInput type="number" formControlName="price"/>
 
-          <mat-error>
-            <ng-container *ngIf="price.hasError('required')">Price is required!</ng-container>
-            <ng-container *ngIf="price.hasError('min')">Price cannot be negative!</ng-container>
-          </mat-error>
+          <mat-error>{{ getErrorMessage(price, 'Price') }}</mat-error>
         </mat-form-field>
 
         <ng-container *ngIf="!forSell.value">
@@ -113,18 +95,14 @@
             <mat-label>Security</mat-label>
             <input matInput type="number" formControlName="security"/>
 
-            <mat-error>
-              <ng-container *ngIf="security.hasError('min')">Security cannot be negative!</ng-container>
-            </mat-error>
+            <mat-error>{{ getErrorMessage(security, 'Security') }}</mat-error>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label>Maintenance</mat-label>
             <input matInput type="number" formControlName="maintenance"/>
 
-            <mat-error>
-              <ng-container *ngIf="maintenance.hasError('min')">Maintenance cannot be negative!</ng-container>
-            </mat-error>
+            <mat-error>{{ getErrorMessage(maintenance, 'Maintenance') }}</mat-error>
           </mat-form-field>
         </ng-container>
 
@@ -132,19 +110,14 @@
           <mat-label>Built area</mat-label>
           <input matInput type="number" formControlName="builtArea"/>
 
-          <mat-error>
-            <ng-container *ngIf="builtArea.hasError('min')">Built area cannot be negative!</ng-container>
-          </mat-error>
+          <mat-error>{{ getErrorMessage(builtArea, 'Built area') }}</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Carpet area</mat-label>
           <input matInput type="number" formControlName="carpetArea"/>
 
-          <mat-error>
-            <ng-container *ngIf="carpetArea.hasError('required')">Carpet area is required!</ng-container>
-            <ng-container *ngIf="carpetArea.hasError('min')">Carpet area cannot be negative!</ng-container>
-          </mat-error>
+          <mat-error>{{ getErrorMessage(carpetArea, 'Carpet area') }}</mat-error>
         </mat-form-field>
 
         <div fxLayoutAlign="space-between">
@@ -171,29 +144,21 @@
           <mat-label>Address</mat-label>
           <input matInput type="text" formControlName="address"/>
 
-          <mat-error>
-            <ng-container *ngIf="address.hasError('required')">Address is required!</ng-container>
-          </mat-error>
+          <mat-error>{{ getErrorMessage(address, 'Address') }}</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Floor</mat-label>
           <input matInput type="number" formControlName="floor"/>
 
-          <mat-error>
-            <ng-container *ngIf="floor.hasError('min')">Floor cannot be less than 1!</ng-container>
-            <ng-container *ngIf="floor.hasError('max')">Floor cannot be greater than 128!</ng-container>
-          </mat-error>
+          <mat-error>{{ getErrorMessage(floor, 'Floor') }}</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Total floor</mat-label>
           <input matInput type="number" formControlName="totalFloor"/>
 
-          <mat-error>
-            <ng-container *ngIf="totalFloor.hasError('min')">Total floor cannot be less than 1!</ng-container>
-            <ng-container *ngIf="totalFloor.hasError('max')">Total floor cannot be greater than 128!</ng-container>
-          </mat-error>
+          <mat-error>{{ getErrorMessage(totalFloor, 'Total floor') }}</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
@@ -229,18 +194,14 @@
             <mat-button-toggle fxFlex fxLayout="row" [value]="false">No</mat-button-toggle>
           </mat-button-toggle-group>
 
-          <mat-error>
-            <ng-container *ngIf="readyToMove.hasError('required') && readyToMove.touched">You have to choose property is ready to move or not!</ng-container>
-          </mat-error>
+          <mat-error>{{ getErrorMessage(readyToMove, 'Ready to move') }}</mat-error>
         </div>
 
         <mat-form-field appearance="outline" *ngIf="readyToMove.value; else notReady">
           <mat-label>Age of property</mat-label>
           <input matInput type="number" formControlName="age"/>
 
-          <mat-error>
-            <ng-container *ngIf="age.hasError('min')">Age cannot be negative!</ng-container>
-          </mat-error>
+          <mat-error>{{ getErrorMessage(age, 'Age of property') }}</mat-error>
         </mat-form-field>
 
         <ng-template #notReady>
@@ -269,9 +230,7 @@
             <mat-button-toggle fxFlex fxLayout="row" *ngFor="let side of ['East', 'West', 'South', 'North']" [value]="side">{{ side }}</mat-button-toggle>
           </mat-button-toggle-group>
 
-          <mat-error>
-            <ng-container *ngIf="mainEntrance.hasError('required') && mainEntrance.touched">Main entrance is required!</ng-container>
-          </mat-error>
+          <mat-error>{{ getErrorMessage(mainEntrance, 'Main entrance') }}</mat-error>
         </div>
 
         <mat-form-field appearance="outline">
@@ -280,9 +239,7 @@
 
           <mat-hint align="end">{{ description.value?.length || 0 }}/{{ maxDescriptionLength }}</mat-hint>
 
-          <mat-error>
-            <ng-container *ngIf="description.hasError('maxlength')">Description must not be longer than {{ maxDescriptionLength }} characters!</ng-container>
-          </mat-error>
+          <mat-error>{{ getErrorMessage(description, 'Description') }}</mat-error>
         </mat-form-field>
 
         <div fxLayoutAlign="space-between">

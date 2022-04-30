@@ -13,9 +13,7 @@
 
       <mat-icon matPrefix>email</mat-icon>
 
-      <mat-error>
-        <ng-container *ngIf="email.hasError('required')">Email is required!</ng-container>
-      </mat-error>
+      <mat-error>{{ getErrorMessage(email, 'Email') }}</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
@@ -24,9 +22,7 @@
 
       <mat-icon matPrefix>lock</mat-icon>
 
-      <mat-error>
-        <ng-container *ngIf="password.hasError('required')">Password is required!</ng-container>
-      </mat-error>
+      <mat-error>{{ getErrorMessage(password, 'Password') }}</mat-error>
     </mat-form-field>
 
     <div fxLayoutGap="0.5rem">

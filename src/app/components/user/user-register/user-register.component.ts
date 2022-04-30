@@ -8,7 +8,11 @@ import {
   Validators
 } from '@angular/forms';
 
-import { UserService, SnackBarService } from '../../../services';
+import {
+  UserService,
+  SnackBarService,
+  ValidationErrorService
+} from '../../../services';
 
 @Component({
   selector: 'app-user-register',
@@ -73,7 +77,8 @@ export class UserRegisterComponent {
   constructor(private readonly _formBuilder: FormBuilder,
               private readonly _router: Router,
               private readonly _userService: UserService,
-              private readonly _snackBar: SnackBarService) { }
+              private readonly _snackBar: SnackBarService,
+              private readonly _validationError: ValidationErrorService) { }
 
   onSubmit(): void {
     if (this.registerForm.valid) {
@@ -90,5 +95,9 @@ export class UserRegisterComponent {
     else {
       this._snackBar.open('Kindly provide all required fields!');
     }
+  }
+
+  getErrorMessage(formControl: FormControl, fieldName: string): string | null {
+    return this._validationError.getErrorMessage(formControl, fieldName);
   }
 }

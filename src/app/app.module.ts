@@ -43,7 +43,8 @@ import {
   PropertyService,
   PropertyDetailResolverService,
   SnackBarService,
-  UserService
+  UserService,
+  ValidationErrorService
 } from './services';
 
 @NgModule({
@@ -89,7 +90,8 @@ import {
     PropertyService,
     PropertyDetailResolverService,
     SnackBarService,
-    UserService
+    UserService,
+    ValidationErrorService
   ],
   bootstrap: [AppComponent]
 })
