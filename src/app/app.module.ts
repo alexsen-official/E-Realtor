@@ -1,12 +1,9 @@
 import { NgModule } from '@angular/core';
-
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexModule } from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
-
-import { AppRoutingModule } from './app-routing.module';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -27,15 +24,20 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import {
   AppComponent,
   NavBarComponent,
-
   AddPropertyComponent,
   PropertyCardComponent,
   PropertyDetailComponent,
   PropertyListComponent,
-
   UserLoginComponent,
   UserRegisterComponent
 } from './components';
+
+import { AppRoutingModule } from './modules';
+
+import {
+  FilterPipe,
+  SortPipe
+} from './pipes';
 
 import {
   PropertyService,
@@ -48,41 +50,41 @@ import {
   declarations: [
     AppComponent,
     NavBarComponent,
-
     AddPropertyComponent,
     PropertyCardComponent,
     PropertyDetailComponent,
     PropertyListComponent,
-
     UserLoginComponent,
-    UserRegisterComponent
-],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        FlexModule,
-        HttpClientModule,
-        ReactiveFormsModule,
+    UserRegisterComponent,
 
-        AppRoutingModule,
+    FilterPipe,
+    SortPipe
+  ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    FlexModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    AppRoutingModule,
 
-        MatButtonModule,
-        MatButtonToggleModule,
-        MatCardModule,
-        MatDatepickerModule,
-        MatDividerModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatInputModule,
-        MatMenuModule,
-        MatNativeDateModule,
-        MatRippleModule,
-        MatSelectModule,
-        MatSnackBarModule,
-        MatStepperModule,
-        MatRadioModule,
-        MatToolbarModule
-    ],
+    MatButtonModule,
+    MatButtonToggleModule,
+    MatCardModule,
+    MatDatepickerModule,
+    MatDividerModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatMenuModule,
+    MatNativeDateModule,
+    MatRippleModule,
+    MatSelectModule,
+    MatSnackBarModule,
+    MatStepperModule,
+    MatRadioModule,
+    MatToolbarModule
+  ],
   providers: [
     PropertyService,
     PropertyDetailResolverService,

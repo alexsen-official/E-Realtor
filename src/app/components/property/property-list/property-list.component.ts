@@ -13,6 +13,8 @@ export class PropertyListComponent implements OnInit {
   forSell: boolean = true;
   properties: IProperty[] = [];
 
+  isAsc: boolean = true;
+
   constructor(private readonly _activatedRoute: ActivatedRoute,
               private readonly _propertyService: PropertyService) { }
 
@@ -35,5 +37,9 @@ export class PropertyListComponent implements OnInit {
 
   trackByPropertyId(index: number, property: IProperty): number {
     return property.id;
+  }
+
+  reverseSortOrder(): void {
+    this.isAsc = !this.isAsc;
   }
 }

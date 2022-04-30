@@ -7,9 +7,9 @@ import {
   AddPropertyComponent,
   UserLoginComponent,
   UserRegisterComponent
-} from './components';
+} from '../components';
 
-import { PropertyDetailResolverService } from './services';
+import { PropertyDetailResolverService } from '../services';
 
 const routes: Routes = [
   { path: '', component: PropertyListComponent },
