@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row fxLayoutAlign="space-between center">
-    <nav fxLayoutGap="0.5rem">
+    <nav fxLayout fxLayoutGap="0.5rem">
       <a mat-button routerLink="/">
         <mat-icon inline>home</mat-icon>
         <span fxFlexOffset="0.25rem">{{ title }}</span>
@@ -52,7 +52,11 @@
     </ng-container>
 
     <ng-template #loggedOut>
-      <div>
+      <div fxLayout fxLayoutAlign="end center" fxLayoutGap="0.5rem">
+        <button mat-icon-button (click)="reverseTheme()">
+          <mat-icon>{{ isDarkTheme ? 'wb_sunny' : 'brightness_2' }}</mat-icon>
+        </button>
+
         <a mat-button routerLink="/user/register" routerLinkActive="mat-flat-button">
           <mat-icon inline>person_add</mat-icon>
           <span fxFlexOffset="0.25rem">Register</span>

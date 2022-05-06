@@ -1,5 +1,5 @@
 <app-nav-bar [title]="title"></app-nav-bar>
 
-<main class="content">
+<main class="content mat-app-background" [class]="{ 'dark-theme': isDarkTheme }">
   <router-outlet></router-outlet>
 </main>

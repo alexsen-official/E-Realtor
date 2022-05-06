@@ -43,6 +43,7 @@ import {
   PropertyService,
   PropertyDetailResolverService,
   SnackBarService,
+  ThemeService,
   UserService,
   ValidationErrorService
 } from './services';
@@ -90,6 +91,7 @@ import {
     PropertyService,
     PropertyDetailResolverService,
     SnackBarService,
+    ThemeService,
     UserService,
     ValidationErrorService
   ],

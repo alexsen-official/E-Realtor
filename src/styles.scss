@@ -1,0 +1,23 @@
+@use '@angular/material' as mat;
+@include mat.core();
+
+$app-dark-primary: mat.define-palette(mat.$deep-purple-palette);
+$app-dark-accent: mat.define-palette(mat.$amber-palette);
+$app-dark-warn: mat.define-palette(mat.$red-palette);
+
+$app-dark-theme: mat.define-dark-theme((
+  color: (
+    primary: $app-dark-primary,
+    accent: $app-dark-accent,
+    warn: $app-dark-warn
+  )
+));
+
+.dark-theme {
+  @include mat.all-component-themes($app-dark-theme);
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, Helvetica Neue, sans-serif;
+}

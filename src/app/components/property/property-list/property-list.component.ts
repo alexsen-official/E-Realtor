@@ -7,7 +7,7 @@ import { PropertyService } from '../../../services';
 @Component({
   selector: 'app-property-list',
   templateUrl: './property-list.component.html',
-  styleUrls: ['./property-list.component.css']
+  styleUrls: ['./property-list.component.scss']
 })
 export class PropertyListComponent implements OnInit {
   forSell: boolean = true;
