@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { SnackBarService, ThemeService } from '../../services';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ThemeService, UserService} from '../../services';
 
 @Component({
   selector: 'app-nav-bar',
@@ -8,26 +8,24 @@ import { SnackBarService, ThemeService } from '../../services';
 })
 export class NavBarComponent {
   @Input() title!: string;
+  @Output() drawerToggle = new EventEmitter();
 
-  token: string | null = null;
+  get token() {
+    return this._userService.token;
+  }
 
   get isDarkTheme() {
     return this._theme.isDarkTheme;
   }
 
-  constructor(private readonly _snackBar: SnackBarService,
+  constructor(private readonly _userService: UserService,
               private readonly _theme: ThemeService) { }
 
   reverseTheme(): void {
     this._theme.reverseTheme();
   }
 
-  loggedId(): string | null {
-    return this.token = localStorage.getItem('token');
-  }
-
   onLogout(): void {
-    localStorage.removeItem('token');
-    this._snackBar.open('You have successfully logged out!');
+    this._userService.logoutUser();
   }
 }

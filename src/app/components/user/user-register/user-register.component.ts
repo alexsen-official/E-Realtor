@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 
 import {
   FormBuilder,
@@ -75,22 +74,13 @@ export class UserRegisterComponent {
   }
 
   constructor(private readonly _formBuilder: FormBuilder,
-              private readonly _router: Router,
               private readonly _userService: UserService,
               private readonly _snackBar: SnackBarService,
               private readonly _validationError: ValidationErrorService) { }
 
   onSubmit(): void {
     if (this.registerForm.valid) {
-      this._userService
-        .addUser(this.registerForm.value)
-        .subscribe(
-          user => localStorage.setItem('token', user.name),
-          error => console.error(error)
-        );
-
-      this._router.navigate(['/']).then();
-      this._snackBar.open('You have successfully registered and logged in!');
+      this._userService.registerUser(this.registerForm.value);
     }
     else {
       this._snackBar.open('Kindly provide all required fields!');

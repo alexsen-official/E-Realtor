@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FlexModule } from '@angular/flex-layout';
+import { ExtendedModule, FlexModule } from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -20,6 +20,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 import {
   AppComponent,
@@ -28,6 +29,7 @@ import {
   PropertyCardComponent,
   PropertyDetailComponent,
   PropertyListComponent,
+  SideBarComponent,
   UserLoginComponent,
   UserRegisterComponent
 } from './components';
@@ -56,6 +58,7 @@ import {
     PropertyCardComponent,
     PropertyDetailComponent,
     PropertyListComponent,
+    SideBarComponent,
     UserLoginComponent,
     UserRegisterComponent,
 
@@ -65,6 +68,7 @@ import {
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    ExtendedModule,
     FlexModule,
     HttpClientModule,
     ReactiveFormsModule,
@@ -85,7 +89,8 @@ import {
     MatSnackBarModule,
     MatStepperModule,
     MatRadioModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatSidenavModule
   ],
   providers: [
     PropertyService,

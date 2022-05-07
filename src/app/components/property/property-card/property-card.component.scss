@@ -11,3 +11,10 @@ a {
 .mat-card-subtitle {
   margin-bottom: 0;
 }
+
+.property-name {
+  max-width: 65%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

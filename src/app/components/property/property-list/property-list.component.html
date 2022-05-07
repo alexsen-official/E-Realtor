@@ -1,4 +1,4 @@
-<div fxLayoutAlign="space-between center">
+<div fxLayout.xs="column" fxLayoutAlign.gt-xs="space-between center">
   <mat-form-field appearance="outline">
     <mat-label>City</mat-label>
     <input #city matInput type="text"/>
@@ -6,11 +6,7 @@
   </mat-form-field>
 
   <div fxLayoutGap="1rem">
-    <button mat-mini-fab color="primary" (click)="reverseSortOrder()">
-      <mat-icon>{{ isAsc ? 'arrow_upward' : 'arrow_downward' }}</mat-icon>
-    </button>
-
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" class="sort-field" fxFlex>
       <mat-label>Sort by</mat-label>
 
       <mat-icon matPrefix>filter_list</mat-icon>
@@ -20,11 +16,16 @@
         <mat-option value="carpetArea">Carpet area</mat-option>
       </mat-select>
     </mat-form-field>
+
+    <button mat-mini-fab color="primary" class="sort-button" (click)="reverseSortOrder()">
+      <mat-icon>{{ isAsc ? 'arrow_upward' : 'arrow_downward' }}</mat-icon>
+    </button>
   </div>
 </div>
 
 <div fxLayout="row wrap" fxLayoutGap="2rem grid">
-  <div fxFlex.gt-lg="25%" fxFlex.gt-md="33.3%"
+  <div class="wrapper"
+       fxFlex.gt-lg="25%" fxFlex.gt-md="33.3%"
        fxFlex.gt-sm="50%" fxFlex.gt-xs="100%"
        *ngFor="let property of properties
        | filter: 'city': city.value

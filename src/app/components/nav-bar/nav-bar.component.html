@@ -1,72 +1,73 @@
 <mat-toolbar color="primary">
-  <mat-toolbar-row fxLayoutAlign="space-between center">
-    <nav fxLayout fxLayoutGap="0.5rem">
-      <a mat-button routerLink="/">
-        <mat-icon inline>home</mat-icon>
-        <span fxFlexOffset="0.25rem">{{ title }}</span>
-      </a>
+  <mat-toolbar-row fxLayout fxLayoutAlign="space-between center">
+    <button mat-icon-button fxShow fxHide.gt-xs (click)="drawerToggle.emit()">
+      <mat-icon>menu</mat-icon>
+    </button>
 
-      <a mat-button routerLink="/" routerLinkActive="mat-flat-button" [routerLinkActiveOptions]="{ exact: true }">
-        <mat-icon inline>shopping_cart</mat-icon>
-        <span fxFlexOffset="0.25rem">Buy</span>
-      </a>
-
-      <a mat-button routerLink="/rent-property" routerLinkActive="mat-flat-button">
-        <mat-icon inline>access_time</mat-icon>
-        <span fxFlexOffset="0.25rem">Rent</span>
-      </a>
-
-      <a mat-button routerLink="/add-property" routerLinkActive="mat-flat-button">
-        <mat-icon inline>add_circle_outline</mat-icon>
-        <span fxFlexOffset="0.25rem">Add property</span>
-      </a>
-    </nav>
-
-    <ng-container *ngIf="loggedId(); else loggedOut">
-      <button mat-button [matMenuTriggerFor]="menu">
-        <mat-icon inline>keyboard_arrow_down</mat-icon>
-        <span fxFlexOffset="0.25rem">Welcome, {{ token }}</span>
-      </button>
-
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item disabled>
-          <mat-icon>dashboard</mat-icon>
-          <span>View dashboard</span>
-        </button>
-
-        <button mat-menu-item disabled>
-          <mat-icon>account_circle</mat-icon>
-          <span>My profile</span>
-        </button>
-
-        <button mat-menu-item disabled>
-          <mat-icon>vpn_key</mat-icon>
-          <span>Change password</span>
-        </button>
-
-        <button mat-menu-item (click)="onLogout()">
-          <mat-icon>meeting_room</mat-icon>
-          <span>Logout</span>
-        </button>
-      </mat-menu>
-    </ng-container>
-
-    <ng-template #loggedOut>
-      <div fxLayout fxLayoutAlign="end center" fxLayoutGap="0.5rem">
-        <button mat-icon-button (click)="reverseTheme()">
-          <mat-icon>{{ isDarkTheme ? 'wb_sunny' : 'brightness_2' }}</mat-icon>
-        </button>
-
-        <a mat-button routerLink="/user/register" routerLinkActive="mat-flat-button">
-          <mat-icon inline>person_add</mat-icon>
-          <span fxFlexOffset="0.25rem">Register</span>
+    <nav fxLayoutAlign="space-between center" fxFlex fxShow fxHide.lt-sm>
+      <div fxLayout fxLayoutAlign="start center" fxLayoutGap="0.5rem">
+        <a mat-button routerLink="/" routerLinkActive="mat-flat-button" [routerLinkActiveOptions]="{ exact: true }">
+          <mat-icon inline>shopping_cart</mat-icon>
+          <span fxFlexOffset="0.25rem">Buy</span>
         </a>
 
-        <a mat-button routerLink="/user/login" routerLinkActive="mat-flat-button">
-          <mat-icon inline>exit_to_app</mat-icon>
-          <span fxFlexOffset="0.25rem">Login</span>
+        <a mat-button routerLink="/rent-property" routerLinkActive="mat-flat-button">
+          <mat-icon inline>access_time</mat-icon>
+          <span fxFlexOffset="0.25rem">Rent</span>
+        </a>
+
+        <a mat-button routerLink="/add-property" routerLinkActive="mat-flat-button">
+          <mat-icon inline>add_circle_outline</mat-icon>
+          <span fxFlexOffset="0.25rem">Add</span>
         </a>
       </div>
-    </ng-template>
+
+      <ng-container *ngIf="token; else unauthorized">
+        <button mat-button [matMenuTriggerFor]="menu">
+          <mat-icon inline>keyboard_arrow_down</mat-icon>
+          <span fxFlexOffset="0.25rem">Welcome, {{ token }}</span>
+        </button>
+
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item disabled>
+            <mat-icon>dashboard</mat-icon>
+            <span>View dashboard</span>
+          </button>
+
+          <button mat-menu-item disabled>
+            <mat-icon>account_circle</mat-icon>
+            <span>My profile</span>
+          </button>
+
+          <button mat-menu-item disabled>
+            <mat-icon>vpn_key</mat-icon>
+            <span>Change password</span>
+          </button>
+
+          <button mat-menu-item (click)="onLogout()">
+            <mat-icon>meeting_room</mat-icon>
+            <span>Logout</span>
+          </button>
+        </mat-menu>
+      </ng-container>
+
+      <ng-template #unauthorized>
+        <div fxLayout fxLayoutAlign="end center" fxLayoutGap="0.5rem">
+          <a mat-button routerLink="/user/register" routerLinkActive="mat-flat-button">
+            <mat-icon inline>person_add</mat-icon>
+            <span fxFlexOffset="0.25rem">Register</span>
+          </a>
+
+          <a mat-button routerLink="/user/login" routerLinkActive="mat-flat-button">
+            <mat-icon inline>exit_to_app</mat-icon>
+            <span fxFlexOffset="0.25rem">Login</span>
+          </a>
+        </div>
+      </ng-template>
+    </nav>
+
+    <button mat-icon-button (click)="reverseTheme()">
+      <mat-icon>{{ isDarkTheme ? 'wb_sunny' : 'brightness_2' }}</mat-icon>
+    </button>
   </mat-toolbar-row>
 </mat-toolbar>
