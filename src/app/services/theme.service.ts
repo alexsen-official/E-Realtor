@@ -12,16 +12,14 @@ export class ThemeService {
     this.currentTheme = localStorage.getItem('theme') as Theme;
   }
 
-  get isDarkTheme() {
-    return this.currentTheme === 'dark';
-  }
+  get isDarkTheme() { return this.currentTheme === 'dark'; }
 
-  setTheme(theme: Theme): void {
+  setTheme(theme: Theme) {
     this.currentTheme = theme;
     localStorage.setItem('theme', theme);
   }
 
-  reverseTheme(): void {
+  reverseTheme() {
     this.setTheme(this.isDarkTheme ? 'light' : 'dark');
   }
 }

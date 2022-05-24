@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-
-import { IProperty } from '../../../interfaces';
-import { PropertyService } from '../../../services';
+import { ActivatedRoute }    from '@angular/router';
+import { IProperty }         from '../../../interfaces';
 
 @Component({
   selector: 'app-property-detail',
@@ -12,12 +10,11 @@ import { PropertyService } from '../../../services';
 export class PropertyDetailComponent implements OnInit {
   property!: IProperty;
 
-  constructor(private readonly _activatedRoute: ActivatedRoute,
-              private readonly _propertyService: PropertyService) { }
+  constructor(private readonly _route: ActivatedRoute) { }
 
-  ngOnInit(): void {
-    this._activatedRoute.data.subscribe(
+  ngOnInit() {
+    this._route.data.subscribe(
       data => this.property = data['property']
-    )
+    );
   }
 }

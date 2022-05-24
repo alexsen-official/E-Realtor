@@ -1,59 +1,66 @@
-<mat-card fxLayout="column"
-          fxFlex.gt-lg="25%" fxFlexOffset.gt-lg="37.5%"
-          fxFlex.gt-md="33.3%" fxFlexOffset.gt-md="33.3%"
-          fxFlex.gt-sm="50%" fxFlexOffset.gt-sm="25%"
-          fxFlex.gt-xs="100%" fxFlexOffset.gt-xs="0%">
-  <mat-card-title>Register</mat-card-title>
-  <mat-card-subtitle>Already have an account? <a routerLink="/user/login">Login!</a></mat-card-subtitle>
+<div fxFlex.gt-lg="25%" fxFlexOffset.gt-lg="37.5%"
+     fxFlex.gt-md="33.3%" fxFlexOffset.gt-md="33.3%"
+     fxFlex.gt-sm="50%" fxFlexOffset.gt-sm="25%"
+     fxFlex.gt-xs="100%" fxFlexOffset.gt-xs="0%">
+  <mat-card fxLayout="column">
+    <mat-card-title>Register</mat-card-title>
 
-  <form fxLayout="column" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-    <mat-form-field appearance="outline">
-      <mat-label>Name</mat-label>
-      <input matInput type="text" formControlName="name">
+    <mat-card-subtitle>
+      Already have an account?
+      <a routerLink="/user/login">Login!</a>
+    </mat-card-subtitle>
 
-      <mat-icon matPrefix>account_circle</mat-icon>
-      <mat-hint align="end">{{ name.value?.length || 0 }}/{{ maxNameLength }}</mat-hint>
+    <form fxLayout="column" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input matInput type="text" [formControl]="name">
 
-      <mat-error>{{ getErrorMessage(name, 'Name') }}</mat-error>
-    </mat-form-field>
+        <mat-icon matPrefix>account_circle</mat-icon>
+        <mat-error>{{ getError(name, 'Name') }}</mat-error>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Email</mat-label>
-      <input matInput type="email" formControlName="email">
+        <mat-hint align="end">
+          {{ name.value?.length || 0 }}/{{ maxNameLength }}
+        </mat-hint>
+      </mat-form-field>
 
-      <mat-icon matPrefix>email</mat-icon>
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" [formControl]="email"/>
 
-      <mat-error>{{ getErrorMessage(email, 'Email') }}</mat-error>
-    </mat-form-field>
+        <mat-icon matPrefix>email</mat-icon>
+        <mat-error>{{ getError(email, 'Email') }}</mat-error>
+      </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Phone number</mat-label>
-      <input matInput type="tel" formControlName="phone">
+      <mat-form-field appearance="outline">
+        <mat-label>Phone number</mat-label>
+        <input matInput type="tel" [formControl]="phone">
 
-      <mat-icon matPrefix>phone</mat-icon>
+        <mat-icon matPrefix>phone</mat-icon>
+        <mat-error>{{ getError(phone, 'Phone number') }}</mat-error>
+      </mat-form-field>
 
-      <mat-error>{{ getErrorMessage(phone, 'Phone number') }}</mat-error>
-    </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" [formControl]="password"/>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Password</mat-label>
-      <input matInput type="password" formControlName="password">
+        <mat-icon matPrefix>lock</mat-icon>
+        <mat-error>{{ getError(password, 'Password') }}</mat-error>
+      </mat-form-field>
 
-      <mat-icon matPrefix>lock</mat-icon>
+      <div fxLayout fxLayoutGap="0.5rem">
+        <div [matTooltip]="registerForm.invalid ? 'Provide all the required fields!' : ''">
+          <button mat-flat-button color="primary"
+                  type="submit" [disabled]="registerForm.invalid">
+            <mat-icon inline>check</mat-icon>
+            <span fxFlexOffset="0.25rem">Submit</span>
+          </button>
+        </div>
 
-      <mat-error>{{ getErrorMessage(password, 'Password') }}</mat-error>
-    </mat-form-field>
-
-    <div fxLayoutGap="0.5rem">
-      <button mat-flat-button color="primary" type="submit" [disabled]="registerForm.invalid">
-        <mat-icon inline>check</mat-icon>
-        <span fxFlexOffset="0.25rem">Submit</span>
-      </button>
-
-      <button mat-flat-button color="warn" type="reset">
-        <mat-icon inline>close</mat-icon>
-        <span fxFlexOffset="0.25rem">Reset</span>
-      </button>
-    </div>
-  </form>
-</mat-card>
+        <button mat-flat-button color="warn" type="reset">
+          <mat-icon inline>close</mat-icon>
+          <span fxFlexOffset="0.25rem">Reset</span>
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>

@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { UserService} from '../../services';
+import { Component }   from '@angular/core';
+import { UserService } from '../../services';
 
 @Component({
   selector: 'app-side-bar',
@@ -7,13 +7,9 @@ import { UserService} from '../../services';
   styleUrls: ['./side-bar.component.scss']
 })
 export class SideBarComponent {
-  get token() {
-    return this._userService.token;
-  }
+  constructor(private readonly _user: UserService) { }
 
-  constructor(private readonly _userService: UserService) { }
+  get token() { return this._user.token; }
 
-  onLogout(): void {
-    this._userService.logoutUser();
-  }
+  logoutUser = () => this._user.logout();
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component }    from '@angular/core';
 import { ThemeService } from './services';
 
 @Component({
@@ -9,9 +9,7 @@ import { ThemeService } from './services';
 export class AppComponent {
   title = 'E-Realtor';
 
-  get isDarkTheme() {
-    return this._theme.isDarkTheme;
-  }
-
   constructor(private readonly _theme: ThemeService) { }
+
+  get isDarkTheme() { return this._theme.isDarkTheme; }
 }

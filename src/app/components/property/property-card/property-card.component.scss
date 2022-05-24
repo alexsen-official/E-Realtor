@@ -1,6 +1,6 @@
 a {
-  text-decoration: none;
   color: inherit;
+  text-decoration: none;
 }
 
 .mat-card-image {
@@ -14,7 +14,7 @@ a {
 
 .property-name {
   max-width: 65%;
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }

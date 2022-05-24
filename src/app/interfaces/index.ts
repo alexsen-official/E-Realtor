@@ -1,2 +1,2 @@
-export { IProperty } from './property.interface';
-export { IUser } from './user.interface';
+export { IProperty, PropertyType, PropertyFurnishing } from './property.interface';
+export { IUser }                                       from './user.interface';

@@ -1,17 +1,6 @@
-import { Component } from '@angular/core';
-
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators
-} from '@angular/forms';
-
-import {
-  UserService,
-  SnackBarService,
-  ValidationErrorService
-} from '../../../services';
+import { Component }                            from '@angular/core';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { UserService, ValidationService }       from '../../../services';
 
 @Component({
   selector: 'app-user-register',
@@ -19,17 +8,17 @@ import {
   styleUrls: ['./user-register.component.scss']
 })
 export class UserRegisterComponent {
-  readonly minNameLength: number = 5;
-  readonly maxNameLength: number = 32;
+  readonly minNameLength = 4;
+  readonly maxNameLength = 32;
 
-  readonly phoneLength: number = 10;
+  readonly phoneLength = 10;
 
-  readonly maxEmailLength: number = 320;
+  readonly maxEmailLength = 320;
 
-  readonly minPasswordLength: number = 10;
-  readonly maxPasswordLength: number = 128;
+  readonly minPasswordLength = 10;
+  readonly maxPasswordLength = 128;
 
-  registerForm: FormGroup = this._formBuilder.group({
+  registerForm = this._formBuilder.group({
     name: [null, [
       Validators.required,
       Validators.minLength(this.minNameLength),
@@ -57,37 +46,21 @@ export class UserRegisterComponent {
     ]]
   });
 
-  get name() {
-    return this.registerForm.get('name') as FormControl;
-  }
-
-  get email() {
-    return this.registerForm.get('email') as FormControl;
-  }
-
-  get phone() {
-    return this.registerForm.get('phone') as FormControl;
-  }
-
-  get password() {
-    return this.registerForm.get('password') as FormControl;
-  }
-
   constructor(private readonly _formBuilder: FormBuilder,
-              private readonly _userService: UserService,
-              private readonly _snackBar: SnackBarService,
-              private readonly _validationError: ValidationErrorService) { }
+              private readonly _user       : UserService,
+              private readonly _validation : ValidationService) { }
 
-  onSubmit(): void {
-    if (this.registerForm.valid) {
-      this._userService.registerUser(this.registerForm.value);
-    }
-    else {
-      this._snackBar.open('Kindly provide all required fields!');
-    }
+  get name()     { return this.registerForm.get('name')     as FormControl; }
+  get email()    { return this.registerForm.get('email')    as FormControl; }
+  get phone()    { return this.registerForm.get('phone')    as FormControl; }
+  get password() { return this.registerForm.get('password') as FormControl; }
+
+  onSubmit() {
+    if (this.registerForm.valid)
+      this._user.register(this.registerForm.value);
   }
 
-  getErrorMessage(formControl: FormControl, fieldName: string): string | null {
-    return this._validationError.getErrorMessage(formControl, fieldName);
+  getError(control: FormControl, label: string) {
+    return this._validation.getError(control, label);
   }
 }

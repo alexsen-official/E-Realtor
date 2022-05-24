@@ -6,18 +6,19 @@
   </mat-form-field>
 
   <div fxLayoutGap="1rem">
-    <mat-form-field appearance="outline" class="sort-field" fxFlex>
+    <mat-form-field fxFlex appearance="outline" class="sort-field">
       <mat-label>Sort by</mat-label>
-
       <mat-icon matPrefix>filter_list</mat-icon>
 
       <mat-select #sortBy>
         <mat-option value="price">Price</mat-option>
-        <mat-option value="carpetArea">Carpet area</mat-option>
+        <mat-option value="area">Area</mat-option>
       </mat-select>
     </mat-form-field>
 
-    <button mat-mini-fab color="primary" class="sort-button" (click)="reverseSortOrder()">
+    <button mat-mini-fab color="primary"
+            class="sort-button" (click)="reverseSort()"
+            matTooltip="Sort by {{ isAsc ? 'ascending' : 'descending' }}">
       <mat-icon>{{ isAsc ? 'arrow_upward' : 'arrow_downward' }}</mat-icon>
     </button>
   </div>
@@ -30,7 +31,7 @@
        *ngFor="let property of properties
        | filter: 'city': city.value
        | sort: sortBy.value: isAsc;
-       trackBy: trackByPropertyId">
-    <app-property-card [property]="property"></app-property-card>
+       trackBy: trackById">
+      <app-property-card [property]="property"></app-property-card>
   </div>
 </div>

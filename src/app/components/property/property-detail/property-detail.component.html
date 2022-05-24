@@ -1,8 +1,8 @@
 <mat-card fxFlex="60%" fxFlexOffset="20%">
   <div fxLayoutAlign="space-between">
     <div>
-      <mat-card-title>{{ property.name }}</mat-card-title>
-      <mat-card-subtitle>{{ property.propertyType }} with {{ property.BHK }} BHK, in {{ property.city }}</mat-card-subtitle>
+      <mat-card-title>{{ property.main.title }}</mat-card-title>
+      <mat-card-subtitle>{{ property.main.type }} with {{ property.main.rooms }} rooms</mat-card-subtitle>
     </div>
 
     <mat-card-actions>
@@ -20,32 +20,24 @@
 
   <mat-card-content fxLayout="row" fxLayoutGap="2rem">
     <div fxLayout="column">
-      <span><b>Furnishing type:</b> {{ property.furnishingType }}</span>
-      <span><b>Possession:</b> {{ property.possession | date }}</span>
-      <span><b>Gated community:</b> {{ property.gatedCommunity }}</span>
-      <span><b>Age:</b> {{ property.age }}</span>
-      <span><b>Ready to move:</b> {{ property.readyToMove }}</span>
+      <span><b>Country:</b> {{ property.location.country }} </span>
+      <span><b>State:  </b> {{ property.location.state }}   </span>
+      <span><b>City:   </b> {{ property.location.city }}    </span>
+      <span><b>Street: </b> {{ property.location.street }}  </span>
+      <span><b>Floor:  </b> {{ property.location.floor }}   </span>
     </div>
 
     <div fxLayout="column">
-      <span><b>Address:</b> {{ property.address }}</span>
-      <span><b>Floor:</b> {{ property.floor }}</span>
-      <span><b>Total floor:</b> {{ property.totalFloor }}</span>
-      <span><b>Landmark:</b> {{ property.landmark }}</span>
-      <span><b>Main entrance:</b> {{ property.mainEntrance }}</span>
-    </div>
-
-    <div fxLayout="column">
-      <span><b>Price:</b> {{ property.price | currency }}</span>
-      <span><b>Security:</b> {{ property.security | currency }}</span>
-      <span><b>Maintenance:</b> {{ property.maintenance | currency }}</span>
-      <span><b>Built area:</b> {{ property.builtArea }}</span>
-      <span><b>Carpet area:</b> {{ property.carpetArea }}</span>
+      <span><b>Furnishing:    </b> {{ property.main.furnishing }}             </span>
+      <span><b>Area:          </b> {{ property.main.area }}                   </span>
+      <span><b>Available from:</b> {{ property.rent.available?.from | date }} </span>
+      <span><b>Available to:  </b> {{ property.rent.available?.to | date }}   </span>
+      <span><b>Price:         </b> {{ property.main.price | currency }}       </span>
     </div>
   </mat-card-content>
 
   <div>
     <b>About property:</b>
-    <p>{{ property.description }}</p>
+    <p>{{ property.details.description }}</p>
   </div>
 </mat-card>

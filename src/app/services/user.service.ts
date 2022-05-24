@@ -1,46 +1,44 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
-import { IUser } from '../interfaces';
+import { HttpClient }      from '@angular/common/http';
+import { Injectable }      from '@angular/core';
+import { Router }          from '@angular/router';
+import { map }             from 'rxjs';
+import { IUser }           from '../interfaces';
 import { SnackBarService } from './snack-bar.service';
-import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  get token() {
-    return localStorage.getItem('token');
-  }
-
-  constructor(private readonly _http: HttpClient,
+  constructor(private readonly _http    : HttpClient,
               private readonly _snackBar: SnackBarService,
-              private readonly _router: Router) { }
+              private readonly _router  : Router) { }
 
-  addUser(user: IUser): Observable<IUser> {
+  get token() { return localStorage.getItem('token'); }
+
+  add(user: IUser) {
     return this._http.post<IUser>('http://localhost:3000/users', user);
   }
 
-  findUser(user: IUser): Observable<IUser | undefined> {
+  find(user: IUser) {
     return this._http
-      .get<IUser[]>('http://localhost:3000/users')
-      .pipe(map(
-        users => users.find(
-          token => token.email === user.email
-                && token.password === user.password
-        )
-      ));
+               .get<IUser[]>('http://localhost:3000/users')
+               .pipe(map(
+                 users => users.find(
+                   token => token.email === user.email
+                            && token.password === user.password
+                 )
+               ));
   }
 
-  registerUser(user: IUser): void {
-    this.addUser(user).subscribe(
-      token => this.loginUser(token),
+  register(user: IUser) {
+    this.add(user).subscribe(
+      token => this.login(token),
       error => console.error(error)
     );
   }
 
-  loginUser(user: IUser): void {
-    this.findUser(user).subscribe(
+  login(user: IUser) {
+    this.find(user).subscribe(
       token => {
         if (token) {
           localStorage.setItem('token', token.name);
@@ -53,10 +51,10 @@ export class UserService {
         }
       },
       error => console.error(error)
-    )
+    );
   }
 
-  logoutUser() {
+  logout() {
     localStorage.removeItem('token');
     this._snackBar.open('You have successfully logged out!');
   }

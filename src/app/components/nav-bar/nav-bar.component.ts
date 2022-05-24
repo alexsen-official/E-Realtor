@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ThemeService, UserService} from '../../services';
+import { ThemeService, UserService }              from '../../services';
 
 @Component({
   selector: 'app-nav-bar',
@@ -7,25 +7,15 @@ import { ThemeService, UserService} from '../../services';
   styleUrls: ['./nav-bar.component.scss']
 })
 export class NavBarComponent {
-  @Input() title!: string;
+  @Input()  title!: string;
   @Output() drawerToggle = new EventEmitter();
 
-  get token() {
-    return this._userService.token;
-  }
-
-  get isDarkTheme() {
-    return this._theme.isDarkTheme;
-  }
-
-  constructor(private readonly _userService: UserService,
+  constructor(private readonly _user : UserService,
               private readonly _theme: ThemeService) { }
 
-  reverseTheme(): void {
-    this._theme.reverseTheme();
-  }
+  get token()       { return this._user.token;        }
+  get isDarkTheme() { return this._theme.isDarkTheme; }
 
-  onLogout(): void {
-    this._userService.logoutUser();
-  }
+  logoutUser   = () => this._user.logout();
+  reverseTheme = () => this._theme.reverseTheme();
 }

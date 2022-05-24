@@ -1,2 +1,2 @@
 export { FilterPipe } from './filter.pipe';
-export { SortPipe } from './sort.pipe';
+export { SortPipe }   from './sort.pipe';

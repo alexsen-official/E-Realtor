@@ -1,18 +1,8 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators
-} from '@angular/forms';
-
-import {
-  SnackBarService,
-  PropertyService,
-  ValidationErrorService
-} from '../../../services';
+import { Component }                                           from '@angular/core';
+import { Router }                                              from '@angular/router';
+import { FormBuilder, FormControl, FormGroup, Validators }     from '@angular/forms';
+import { SnackBarService, PropertyService, ValidationService } from '../../../services';
+import { PropertyType, PropertyFurnishing }                    from '../../../interfaces';
 
 @Component({
   selector: 'app-add-property',
@@ -20,240 +10,182 @@ import {
   styleUrls: ['./add-property.component.scss']
 })
 export class AddPropertyComponent {
-  readonly minNameLength: number = 5;
-  readonly maxNameLength: number = 32;
+  readonly minTitleLength = 4;
+  readonly maxTitleLength = 32;
 
-  readonly maxDescriptionLength: number = 1024;
+  readonly minRoomCount = 1;
+  readonly maxRoomCount = 64;
 
-  // TODO: Property types and furnishing types must come from masters
-  propertyTypes: string[] = [
-    'House',
-    'Flat',
-    'Duplex'
-  ];
+  readonly minArea  = 1;
+  readonly minPrice = 1;
 
-  furnishingTypes: string[] = [
-    'Fully furnished',
-    'Semi furnished',
-    'Unfurnished'
-  ];
+  readonly minCountryLength = 4;
+  readonly maxCountryLength = 64;
 
-  addPropertyForm: FormGroup = this._formBuilder.group({
-    basicInfo: this._formBuilder.group({
-      name: [null, [
+  readonly minStateLength = 4;
+  readonly maxStateLength = 128;
+
+  readonly minCityLength = 4;
+  readonly maxCityLength = 128;
+
+  readonly minStreetLength = 4;
+  readonly maxStreetLength = 64;
+
+  readonly minFloor = 0;
+  readonly maxFloor = 128;
+
+  readonly minDescriptionLength = 32;
+  readonly maxDescriptionLength = 1024;
+
+  readonly propertyTypes      = Object.values(PropertyType);
+  readonly propertyFurnishing = Object.values(PropertyFurnishing);
+
+  readonly addForm = this._formBuilder.group({
+    main: this._formBuilder.group({
+      title: [null, [
         Validators.required,
-        Validators.minLength(this.minNameLength),
-        Validators.maxLength(this.maxNameLength)
+        Validators.minLength(this.minTitleLength),
+        Validators.maxLength(this.maxTitleLength)
       ]],
 
-      city: [null, Validators.required],
-      propertyType: [this.propertyTypes[0], Validators.required],
-      furnishingType: [this.furnishingTypes[0], Validators.required],
+      type: [this.propertyTypes[0], [
+        Validators.required
+      ]],
 
-      BHK: [null, [
+      furnishing: [this.propertyFurnishing[0], [
+        Validators.required
+      ]],
+
+      rooms: [null, [
         Validators.required,
         Validators.pattern(/^\d*$/),
-        Validators.min(1)
+        Validators.min(this.minRoomCount),
+        Validators.max(this.maxRoomCount)
       ]],
 
-      forSell: [null, Validators.required]
-    }),
+      area: [null, [
+        Validators.required,
+        Validators.pattern(/^\d*$/),
+        Validators.min(this.minArea)
+      ]],
 
-    pricingAndArea: this._formBuilder.group({
       price: [null, [
         Validators.required,
         Validators.pattern(/^\d*$/),
-        Validators.min(0)
-      ]],
-
-      security: [null, [
-        Validators.pattern(/^\d*$/),
-        Validators.min(0)
-      ]],
-
-      maintenance: [null, [
-        Validators.pattern(/^\d*$/),
-        Validators.min(0)
-      ]],
-
-      builtArea: [null, [
-        Validators.pattern(/^\d*$/),
-        Validators.min(0)
-      ]],
-
-      carpetArea: [null, [
-        Validators.required,
-        Validators.pattern(/^\d*$/),
-        Validators.min(0)
+        Validators.min(this.minPrice)
       ]]
     }),
 
+    rent: this._formBuilder.group({
+      forRent: [false, [Validators.required]],
+
+      available: this._formBuilder.group({
+        from: [null, []],
+        to:   [null, []]
+      })
+    }),
+
     location: this._formBuilder.group({
-      address: [null, Validators.required],
+      country: [null, [
+        Validators.required,
+        Validators.minLength(this.minCountryLength),
+        Validators.maxLength(this.maxCountryLength)
+      ]],
+
+      state: [null, [
+        Validators.required,
+        Validators.minLength(this.minStateLength),
+        Validators.maxLength(this.maxStateLength)
+      ]],
+
+      city: [null, [
+        Validators.required,
+        Validators.minLength(this.minCityLength),
+        Validators.maxLength(this.maxCityLength)
+      ]],
+
+      street: [null, [
+        Validators.required,
+        Validators.minLength(this.minStreetLength),
+        Validators.maxLength(this.maxStreetLength)
+      ]],
 
       floor: [null, [
         Validators.pattern(/^\d*$/),
-        Validators.min(1),
-        Validators.max(128)
-      ]],
-
-      totalFloor: [null, [
-        Validators.pattern(/^\d*$/),
-        Validators.min(1),
-        Validators.max(128)
-      ]],
-
-      landmark: [null, null]
+        Validators.min(this.minFloor),
+        Validators.max(this.maxFloor)
+      ]]
     }),
 
-    otherDetails: this._formBuilder.group({
-      readyToMove: [null, Validators.required],
-      possession: [null, null],
-
-      age: [null, [
-        Validators.pattern(/^\d*$/),
-        Validators.min(0)
+    details: this._formBuilder.group({
+      description: [null, [
+        Validators.minLength(this.minDescriptionLength),
+        Validators.maxLength(this.maxDescriptionLength)
       ]],
 
-      gatedCommunity: [null, null],
-      mainEntrance: [null, Validators.required],
-      description: [null, Validators.maxLength(this.maxDescriptionLength)]
-    }),
-
-    photos: this._formBuilder.group({})
+      images: [[], []]
+    })
   });
 
   // region Getters
-  get basicInfo() {
-    return this.addPropertyForm.get('basicInfo') as FormGroup;
-  }
-
-  get pricingAndArea() {
-    return this.addPropertyForm.get('pricingAndArea') as FormGroup;
-  }
-
-  get location() {
-    return this.addPropertyForm.get('location') as FormGroup;
-  }
-
-  get otherDetails() {
-    return this.addPropertyForm.get('otherDetails') as FormGroup;
-  }
-
-  get photos() {
-    return this.addPropertyForm.get('photos') as FormGroup;
-  }
-
-  get name() {
-    return this.basicInfo.get('name') as FormControl;
-  }
-
-  get city() {
-    return this.basicInfo.get('city') as FormControl;
-  }
-
-  get propertyType() {
-    return this.basicInfo.get('propertyType') as FormControl;
-  }
-
-  get furnishingType() {
-    return this.basicInfo.get('furnishingType') as FormControl;
-  }
-
-  get BHK() {
-    return this.basicInfo.get('BHK') as FormControl;
-  }
-
-  get forSell() {
-    return this.basicInfo.get('forSell') as FormControl;
-  }
-
-  get price() {
-    return this.pricingAndArea.get('price') as FormControl;
-  }
-
-  get security() {
-    return this.pricingAndArea.get('security') as FormControl;
-  }
-
-  get maintenance() {
-    return this.pricingAndArea.get('maintenance') as FormControl;
-  }
-
-  get builtArea() {
-    return this.pricingAndArea.get('builtArea') as FormControl;
-  }
-
-  get carpetArea() {
-    return this.pricingAndArea.get('carpetArea') as FormControl;
-  }
-
-  get address() {
-    return this.location.get('address') as FormControl;
-  }
-
-  get floor() {
-    return this.location.get('floor') as FormControl;
-  }
-
-  get totalFloor() {
-    return this.location.get('totalFloor') as FormControl;
-  }
-
-  get landmark() {
-    return this.location.get('landmark') as FormControl;
-  }
-
-  get readyToMove() {
-    return this.otherDetails.get('readyToMove') as FormControl;
-  }
-
-  get possession() {
-    return this.otherDetails.get('possession') as FormControl;
-  }
-
-  get age() {
-    return this.otherDetails.get('age') as FormControl;
-  }
-
-  get gatedCommunity() {
-    return this.otherDetails.get('gatedCommunity') as FormControl;
-  }
-
-  get mainEntrance() {
-    return this.otherDetails.get('mainEntrance') as FormControl;
-  }
-
-  get description() {
-    return this.otherDetails.get('description') as FormControl;
-  }
+  get main()        { return this.addForm  .get('main')        as FormGroup;   }
+  get rent()        { return this.addForm  .get('rent')        as FormGroup;   }
+  get location()    { return this.addForm  .get('location')    as FormGroup;   }
+  get details()     { return this.addForm  .get('details')     as FormGroup;   }
+  get title()       { return this.main     .get('title')       as FormControl; }
+  get type()        { return this.main     .get('type')        as FormControl; }
+  get furnishing()  { return this.main     .get('furnishing')  as FormControl; }
+  get rooms()       { return this.main     .get('rooms')       as FormControl; }
+  get area()        { return this.main     .get('area')        as FormControl; }
+  get price()       { return this.main     .get('price')       as FormControl; }
+  get forRent()     { return this.rent     .get('forRent')     as FormControl; }
+  get available()   { return this.rent     .get('available')   as FormGroup;   }
+  get country()     { return this.location .get('country')     as FormControl; }
+  get state()       { return this.location .get('state')       as FormControl; }
+  get city()        { return this.location .get('city')        as FormControl; }
+  get street()      { return this.location .get('street')      as FormControl; }
+  get floor()       { return this.location .get('floor')       as FormControl; }
+  get description() { return this.details  .get('description') as FormControl; }
+  get images()      { return this.details  .get('images')      as FormControl; }
   // endregion
 
   constructor(private readonly _formBuilder: FormBuilder,
-              private readonly _router: Router,
-              private readonly _snackBar: SnackBarService,
-              private readonly _propertyService: PropertyService,
-              private readonly _validationError: ValidationErrorService) { }
+              private readonly _router     : Router,
+              private readonly _snackBar   : SnackBarService,
+              private readonly _property   : PropertyService,
+              private readonly _validation : ValidationService) { }
 
-  onSubmit(): void {
-    if (this.addPropertyForm.valid) {
-      this._propertyService.addProperty(this.addPropertyForm.value);
+  onSubmit() {
+    if (this.addForm.valid) {
+      this._property.add(this.addForm.value)
+                    .subscribe(error => console.log(error));
 
-      if (this.forSell) {
-        this._router.navigate(['/rent-property']).then();
-      }
-      else {
+      if (this.forRent.value)
         this._router.navigate(['/']).then();
-      }
+      else
+        this._router.navigate(['/rent-property']).then();
 
       this._snackBar.open('You have successfully added the property!');
     }
-    else {
-      this._snackBar.open('Kindly provide all required fields!');
-    }
   }
 
-  getErrorMessage(formControl: FormControl, fieldName: string): string | null {
-    return this._validationError.getErrorMessage(formControl, fieldName);
+  getInputFiles(fileInput: HTMLInputElement) {
+    const files = fileInput.files;
+    const result = [];
+
+    if (files) {
+      for (let i = 0; i < files.length; i++) {
+        const file = files.item(i);
+
+        if (file)
+          result.push(file);
+      }
+    }
+
+    return result;
+  }
+
+  getError(control: FormControl, label: string) {
+    return this._validation.getError(control, label);
   }
 }

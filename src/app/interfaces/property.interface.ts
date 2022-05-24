@@ -1,35 +1,41 @@
+export enum PropertyType {
+  House = 'house',
+  Flat  = 'flat'
+}
+
+export enum PropertyFurnishing {
+  Fully = 'fully-furnished',
+  Semi  = 'semi-furnished',
+  Un    = 'unfurnished'
+}
+
 export interface IProperty {
   id: number,
 
-  // Basic info
-  name: string,
-  city: string,
-  propertyType: string,
-  furnishingType: string,
-  BHK: number,
-  forSell: boolean,
+  main: {
+    title: string,
+    type: PropertyType,
+    furnishing: PropertyFurnishing,
+    rooms: number,
+    area: number,
+    price: number
+  },
 
-  // Pricing and area
-  price: number,
-  security?: number,
-  maintenance?: number,
-  builtArea?: number,
-  carpetArea: number,
+  rent: {
+    forRent: boolean,
+    available?: { from: Date, to: Date }
+  },
 
-  // Location
-  address: string,
-  floor?: number,
-  totalFloor?: number,
-  landmark?: string,
+  location: {
+    country: string,
+    state: string,
+    city: string,
+    street: string,
+    floor?: number
+  },
 
-  // Other details
-  readyToMove: boolean,
-  possession?: Date,
-  age?: number,
-  gatedCommunity?: boolean,
-  mainEntrance: string,
-  description?: string,
-
-  // Photos
-  image?: string
+  details: {
+    description?: string,
+    images: string[]
+  }
 }

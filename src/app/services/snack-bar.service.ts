@@ -10,10 +10,10 @@ import {
   providedIn: 'root'
 })
 export class SnackBarService {
-  duration: number = 5000;
+  duration = 5000;
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'end';
-  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+  verticalPosition: MatSnackBarVerticalPosition     = 'bottom';
 
   constructor(private readonly _snackBar: MatSnackBar) { }
 

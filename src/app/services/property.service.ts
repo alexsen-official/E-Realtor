@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
-import { IProperty } from '../interfaces';
+import { Injectable } from '@angular/core';
+import { map }        from 'rxjs';
+import { IProperty }  from '../interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -9,21 +9,19 @@ import { IProperty } from '../interfaces';
 export class PropertyService {
   constructor(private readonly _http: HttpClient) { }
 
-  getProperty(id: number): Observable<IProperty> {
-    return this._http.get<IProperty>(`http://localhost:3000/properties/${id}`);
+  get(id: number) {
+    return this._http.get<IProperty>(`http://localhost:3000/properties/${ id }`);
   }
 
-  getProperties(forSell: boolean): Observable<IProperty[]> {
+  getAll(forRent: boolean) {
     return this._http
-      .get<IProperty[]>('http://localhost:3000/properties')
-      .pipe(map(
-        properties => properties.filter(
-          property => property.forSell === forSell
-        )
-      ));
+               .get<IProperty[]>('http://localhost:3000/properties')
+               .pipe(map(properties => properties.filter(
+                 property => property.rent.forRent === forRent
+               )));
   }
 
-  addProperty(property: IProperty): Observable<IProperty> {
+  add(property: IProperty) {
     return this._http.post<IProperty>('http://localhost:3000/properties', property);
   }
 }

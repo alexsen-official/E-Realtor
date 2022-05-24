@@ -1,20 +1,23 @@
-import { NgModule } from '@angular/core';
+import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import {
-  PropertyListComponent,
-  PropertyDetailComponent,
   AddPropertyComponent,
+  PropertyDetailComponent,
+  PropertyListComponent,
   UserLoginComponent,
   UserRegisterComponent
 } from '../components';
 
-import { PropertyDetailResolverService } from '../services';
+import { ResolverService } from '../services';
 
 const routes: Routes = [
   { path: '', component: PropertyListComponent },
   { path: 'rent-property', component: PropertyListComponent },
-  { path: 'property-detail/:id', component: PropertyDetailComponent, resolve: { property: PropertyDetailResolverService } },
+  {
+    path: 'property-detail/:id', component: PropertyDetailComponent,
+    resolve: { property: ResolverService }
+  },
   { path: 'add-property', component: AddPropertyComponent },
   { path: 'user/login', component: UserLoginComponent },
   { path: 'user/register', component: UserRegisterComponent },
