@@ -1,0 +1,49 @@
+<mat-card fxFlex="60%" fxFlexOffset="20%">
+  <div fxLayoutAlign="space-between">
+    <div>
+      <mat-card-title>{{ property.title }}</mat-card-title>
+      <mat-card-subtitle>{{ property.type }} with {{ property.rooms }} rooms</mat-card-subtitle>
+    </div>
+
+    <mat-card-actions>
+      <button mat-flat-button color="primary">
+        <mat-icon inline>thumb_up</mat-icon>
+        <span fxFlexOffset="0.25rem">Like</span>
+      </button>
+
+      <button mat-stroked-button>
+        <mat-icon inline>message</mat-icon>
+        <span fxFlexOffset="0.25rem">Message</span>
+      </button>
+    </mat-card-actions>
+  </div>
+
+  <mat-card-content fxLayout="row" fxLayoutGap="2rem">
+    <mat-list>
+      <mat-list-item>Country: {{ property.country }}</mat-list-item>
+      <mat-list-item>State:   {{ property.state   }}</mat-list-item>
+      <mat-list-item>City:    {{ property.city    }}</mat-list-item>
+      <mat-list-item>Street:  {{ property.street  }}</mat-list-item>
+      <mat-list-item>Floor:   {{ property.floor   }}</mat-list-item>
+    </mat-list>
+
+    <mat-list>
+      <mat-list-item>Price:          {{ property.price | currency        }}</mat-list-item>
+      <mat-list-item>Area:           {{ property.area                    }}</mat-list-item>
+      <mat-list-item>Furnishing:     {{ property.furnishing              }}</mat-list-item>
+      <mat-list-item>Available from: {{ property.available?.from | date  }}</mat-list-item>
+      <mat-list-item>Available to:   {{ property.available?.to | date    }}</mat-list-item>
+    </mat-list>
+
+    <mat-list>
+      <mat-list-item>Owner name:  {{ property.owner.name  }}</mat-list-item>
+      <mat-list-item>Owner phone: {{ property.owner.phone }}</mat-list-item>
+      <mat-list-item>Owner email: {{ property.owner.email }}</mat-list-item>
+    </mat-list>
+  </mat-card-content>
+
+  <div>
+    <b>About property:</b>
+    <p>{{ property.description }}</p>
+  </div>
+</mat-card>

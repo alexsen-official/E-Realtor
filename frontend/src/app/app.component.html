@@ -1,0 +1,16 @@
+<mat-drawer-container>
+  <mat-drawer #drawer fxLayout="column">
+    <app-side-bar></app-side-bar>
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <app-nav-bar [title]="title"
+                 (drawerToggle)="drawer.toggle()">
+    </app-nav-bar>
+
+    <main class="content mat-app-background"
+          [class]="themeClass">
+      <router-outlet></router-outlet>
+    </main>
+  </mat-drawer-content>
+</mat-drawer-container>
