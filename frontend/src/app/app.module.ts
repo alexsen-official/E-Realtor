@@ -13,8 +13,9 @@ import { MatDividerModule }                     from '@angular/material/divider'
 import { MatFormFieldModule }                   from '@angular/material/form-field';
 import { MatIconModule }                        from '@angular/material/icon';
 import { MatInputModule }                       from '@angular/material/input';
-import { MatListModule }                        from '@angular/material/list';
 import { MatMenuModule }                        from '@angular/material/menu';
+import { MatProgressBarModule }                 from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule }             from '@angular/material/progress-spinner';
 import { MatRadioModule }                       from '@angular/material/radio';
 import { MatSelectModule }                      from '@angular/material/select';
 import { MatSidenavModule }                     from '@angular/material/sidenav';
@@ -23,8 +24,8 @@ import { MatStepperModule }                     from '@angular/material/stepper'
 import { MatToolbarModule }                     from '@angular/material/toolbar';
 import { MatTooltipModule }                     from '@angular/material/tooltip';
 
-import { BrowserModule }                        from '@angular/platform-browser';
-import { BrowserAnimationsModule }              from '@angular/platform-browser/animations';
+import { BrowserModule }           from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {
   AddPropertyComponent,
@@ -42,6 +43,7 @@ import { AppRoutingModule }     from './modules';
 import { FilterPipe, SortPipe } from './pipes';
 
 import {
+  ImageService,
   PropertyService,
   ResolverService,
   SnackBarService,
@@ -64,37 +66,39 @@ import {
     FilterPipe,
     SortPipe
   ],
-  imports: [
-    HttpClientModule,
-    ExtendedModule,
-    FlexModule,
-    ReactiveFormsModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
+    imports: [
+        HttpClientModule,
+        ExtendedModule,
+        FlexModule,
+        ReactiveFormsModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
 
-    MatButtonModule,
-    MatButtonToggleModule,
-    MatCardModule,
-    MatChipsModule,
-    MatNativeDateModule,
-    MatRippleModule,
-    MatDatepickerModule,
-    MatDividerModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatListModule,
-    MatMenuModule,
-    MatRadioModule,
-    MatSelectModule,
-    MatSidenavModule,
-    MatSnackBarModule,
-    MatStepperModule,
-    MatToolbarModule,
-    MatTooltipModule
-  ],
+        MatButtonModule,
+        MatButtonToggleModule,
+        MatCardModule,
+        MatChipsModule,
+        MatNativeDateModule,
+        MatRippleModule,
+        MatDatepickerModule,
+        MatDividerModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        MatMenuModule,
+        MatProgressBarModule,
+        MatProgressSpinnerModule,
+        MatRadioModule,
+        MatSelectModule,
+        MatSidenavModule,
+        MatSnackBarModule,
+        MatStepperModule,
+        MatToolbarModule,
+        MatTooltipModule
+    ],
   providers: [
+    ImageService,
     PropertyService,
     ResolverService,
     SnackBarService,
@@ -104,4 +108,4 @@ import {
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

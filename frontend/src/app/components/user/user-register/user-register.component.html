@@ -7,7 +7,7 @@
 
     <mat-card-subtitle>
       Already have an account?
-      <a class="link" routerLink="/user/login">Login!</a>
+      <a class="accent" routerLink="/users/login"><b>Login!</b></a>
     </mat-card-subtitle>
 
     <form fxLayout="column" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
@@ -39,28 +39,46 @@
         <mat-error>{{ getError(phone, 'Phone number') }}</mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Password</mat-label>
-        <input matInput type="password" [formControl]="password"/>
+      <div fxLayoutAlign="end">
+        <mat-form-field fxFill appearance="outline">
+          <mat-label>Password</mat-label>
+          <input #passwordInput matInput type="password" [formControl]="password"/>
 
-        <mat-icon matPrefix>lock</mat-icon>
-        <mat-error>{{ getError(password, 'Password') }}</mat-error>
-      </mat-form-field>
+          <mat-icon matPrefix>lock</mat-icon>
+          <mat-error>{{ getError(password, 'Password') }}</mat-error>
 
-      <div fxLayout fxLayoutGap="0.5rem">
+          <mat-hint align="start">
+            Must contain at least one digit, one lowercase and one uppercase letter!
+          </mat-hint>
+        </mat-form-field>
+
+        <button mat-icon-button type="button"
+                class="visibility-toggle"
+                (click)="toggleVisibility(passwordInput)">
+          <mat-icon>{{ isVisible(passwordInput) ? 'visibility' : 'visibility_off' }}</mat-icon>
+        </button>
+      </div>
+
+      <div fxLayout fxLayoutGap="0.5rem" fxFlexOffset="1rem">
         <div [matTooltip]="registerForm.invalid ? 'Provide all the required fields!' : ''">
           <button mat-flat-button color="primary"
-                  type="submit" [disabled]="registerForm.invalid">
+                  type="submit" [disabled]="registerForm.invalid || isLoading">
             <mat-icon inline>check</mat-icon>
             <span fxFlexOffset="0.25rem">Submit</span>
           </button>
         </div>
 
-        <button mat-flat-button color="warn" type="reset">
+        <button mat-flat-button color="warn"
+                type="reset" [disabled]="isLoading">
           <mat-icon inline>close</mat-icon>
           <span fxFlexOffset="0.25rem">Reset</span>
         </button>
       </div>
     </form>
+
+
+    <mat-card-footer *ngIf="isLoading" fxFlexOffset="1rem">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </mat-card-footer>
   </mat-card>
 </div>

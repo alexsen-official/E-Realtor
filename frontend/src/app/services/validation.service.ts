@@ -14,9 +14,6 @@ export class ValidationService {
       const firstError = Object.keys(errors.valueOf())[0];
 
       switch (firstError) {
-        case 'required':
-          return `${ label } is required!`;
-
         case 'email':
           return `${ label } has wrong email format!`;
 
@@ -34,6 +31,9 @@ export class ValidationService {
 
         case 'max':
           return `${ label } can not be greater than ${ control.getError('max')['max'] }!`;
+
+        default:
+          return `${ label } is required!`;
       }
     }
 

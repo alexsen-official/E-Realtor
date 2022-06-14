@@ -1,10 +1,16 @@
-<a routerLink="/property-detail/{{ property.id }}">
+<a routerLink="/property-detail/{{ property._id }}">
   <mat-card mat-ripple>
-    <img mat-card-image *ngIf="property.images; else noImages"
-         src="assets/images/{{ property.images[0] }}" alt="Property image"/>
+    <ng-container *ngIf="isLoaded; else isLoading">
+      <img mat-card-image [src]="propertyImage" alt="Property image"
+           *ngIf="propertyImage; else noImage"/>
 
-    <ng-template #noImages>
-      <img mat-card-image src="assets/images/no-image.jpg" alt="No image available"/>
+      <ng-template #noImage>
+        <img mat-card-image src="assets/images/no-image.jpg" alt="No image available"/>
+      </ng-template>
+    </ng-container>
+
+    <ng-template #isLoading>
+      <mat-spinner></mat-spinner>
     </ng-template>
 
     <mat-card-title fxLayoutAlign="space-between">

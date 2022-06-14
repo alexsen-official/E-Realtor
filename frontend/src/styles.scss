@@ -2,7 +2,7 @@
 @include mat.core();
 
 $app-dark-primary: mat.define-palette(mat.$deep-purple-palette);
-$app-dark-accent:  mat.define-palette(mat.$amber-palette);
+$app-dark-accent:  mat.define-palette(mat.$cyan-palette);
 $app-dark-warn:    mat.define-palette(mat.$red-palette);
 
 $app-dark-theme: mat.define-dark-theme((
@@ -26,12 +26,24 @@ body {
   font-family: Roboto, Helvetica Neue, sans-serif;
 }
 
-.link {
+b {
   font-weight: 500;
+}
+
+a {
+  color: inherit;
   text-decoration: none;
+}
+
+.accent {
   color: mat.get-color-from-palette($app-dark-accent, 'default');
 }
 
 .mat-card-title {
   line-height: 1.75rem;
+}
+
+.mat-icon-button.visibility-toggle {
+  margin: 0.5rem;
+  position: absolute;
 }

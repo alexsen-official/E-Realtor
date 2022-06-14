@@ -1,49 +1,64 @@
-<mat-card fxFlex="60%" fxFlexOffset="20%">
-  <div fxLayoutAlign="space-between">
-    <div>
-      <mat-card-title>{{ property.title }}</mat-card-title>
-      <mat-card-subtitle>{{ property.type }} with {{ property.rooms }} rooms</mat-card-subtitle>
+<mat-card fxLayout="column"
+          fxFlex.gt-lg="60%" fxFlexOffset.gt-lg="20%"
+          fxFlex.gt-md="80%" fxFlexOffset.gt-md="10%"
+          fxFlex.gt-xs="100%" fxFlexOffset.gt-xs="0%">
+  <mat-card-title>{{ property.title }}</mat-card-title>
+
+  <mat-card-subtitle>
+    <a href="https://www.google.com/maps/search/?api=1&query={{ location }}" target="_blank">
+      {{ location }}
+    </a>
+  </mat-card-subtitle>
+
+  <ng-container *ngIf="isLoading; else isLoaded">
+    <mat-spinner></mat-spinner>
+  </ng-container>
+
+  <ng-template #isLoaded>
+    <div class="slider">
+      <ng-container *ngFor="let image of propertyImages">
+        <img [src]="image" alt="Property image" />
+      </ng-container>
+
+      <img *ngIf="propertyImages.length === 0"
+           src="assets/images/no-image.jpg" alt="No image available"/>
     </div>
+  </ng-template>
 
-    <mat-card-actions>
-      <button mat-flat-button color="primary">
-        <mat-icon inline>thumb_up</mat-icon>
-        <span fxFlexOffset="0.25rem">Like</span>
-      </button>
+  <mat-card-content fxLayout="column">
+    {{ property.description }}
 
-      <button mat-stroked-button>
-        <mat-icon inline>message</mat-icon>
-        <span fxFlexOffset="0.25rem">Message</span>
-      </button>
-    </mat-card-actions>
-  </div>
+    <div fxLayout="column" fxFlexOffset="1rem">
+      <span>
+        <b>Owner:</b> {{ property.owner.name }}
+      </span>
 
-  <mat-card-content fxLayout="row" fxLayoutGap="2rem">
-    <mat-list>
-      <mat-list-item>Country: {{ property.country }}</mat-list-item>
-      <mat-list-item>State:   {{ property.state   }}</mat-list-item>
-      <mat-list-item>City:    {{ property.city    }}</mat-list-item>
-      <mat-list-item>Street:  {{ property.street  }}</mat-list-item>
-      <mat-list-item>Floor:   {{ property.floor   }}</mat-list-item>
-    </mat-list>
-
-    <mat-list>
-      <mat-list-item>Price:          {{ property.price | currency        }}</mat-list-item>
-      <mat-list-item>Area:           {{ property.area                    }}</mat-list-item>
-      <mat-list-item>Furnishing:     {{ property.furnishing              }}</mat-list-item>
-      <mat-list-item>Available from: {{ property.available?.from | date  }}</mat-list-item>
-      <mat-list-item>Available to:   {{ property.available?.to | date    }}</mat-list-item>
-    </mat-list>
-
-    <mat-list>
-      <mat-list-item>Owner name:  {{ property.owner.name  }}</mat-list-item>
-      <mat-list-item>Owner phone: {{ property.owner.phone }}</mat-list-item>
-      <mat-list-item>Owner email: {{ property.owner.email }}</mat-list-item>
-    </mat-list>
+      <span *ngIf="property.forRent">
+        <b>Available:</b> {{ property.available?.from | date }} - {{ property.available?.to | date }}
+      </span>
+    </div>
   </mat-card-content>
 
-  <div>
-    <b>About property:</b>
-    <p>{{ property.description }}</p>
+  <mat-divider inset></mat-divider>
+
+  <div fxFlexOffset="1rem" fxLayoutGap="0.5rem"
+       fxLayout="row" fxLayout.lt-sm="column-reverse"
+       fxLayoutAlign="space-between" fxLayoutAlign.lt-sm="start start">
+    <div fxLayoutGap="0.5rem">
+      <a mat-flat-button color="primary" href="tel:{{ property.owner.phone }}">
+        <mat-icon inline>phone</mat-icon>
+        <span fxFlexOffset="0.25rem">Call</span>
+      </a>
+
+      <a mat-stroked-button href="mailto:{{ property.owner.email }}">
+        <mat-icon inline>email</mat-icon>
+        <span fxFlexOffset="0.25rem">Email</span>
+      </a>
+    </div>
+
+    <span fxLayoutAlign="end center" fxLayoutGap="0.25rem">
+      <mat-card-title>{{ property.price | currency:'USD':'symbol':'1.0-0' }}</mat-card-title>
+      <mat-card-subtitle *ngIf="property.forRent">per day</mat-card-subtitle>
+    </span>
   </div>
 </mat-card>

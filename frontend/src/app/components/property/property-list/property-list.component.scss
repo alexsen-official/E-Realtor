@@ -10,3 +10,11 @@
   max-width: 100%;
   box-sizing: border-box;
 }
+
+.mat-spinner {
+  scale: 0.75;
+  position: absolute;
+  box-sizing: border-box;
+  left: calc(50% - 50px);
+  top: calc(50% - 50px);
+}

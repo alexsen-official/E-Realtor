@@ -3,9 +3,10 @@
      fxFlex.gt-md="40%" fxFlexOffset.gt-md="30%"
      fxFlex.gt-sm="60%" fxFlexOffset.gt-sm="20%"
      fxFlex.gt-xs="100%" fxFlexOffset.gt-xs="0%">
-  <form fxLayout="column" [formGroup]="addForm" (ngSubmit)="onSubmit()">
+  <form fxLayout="column" enctype="multipart/form-data"
+        [formGroup]="addForm" (ngSubmit)="onSubmit()">
     <mat-stepper #stepper linear orientation="vertical">
-      <mat-step label="Main" [stepControl]="main">
+      <mat-step label="Main" [stepControl]="main" [editable]="!isLoading">
         <mat-card fxLayout="column" formGroupName="main">
           <mat-card-title>Main</mat-card-title>
 
@@ -76,7 +77,7 @@
         </mat-card>
       </mat-step>
 
-      <mat-step label="Rent" [stepControl]="rent">
+      <mat-step label="Rent" [stepControl]="rent" [editable]="!isLoading">
         <mat-card fxLayout="column" formGroupName="rent">
           <mat-card-title>Rent</mat-card-title>
 
@@ -99,6 +100,8 @@
 
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-date-range-picker #picker></mat-date-range-picker>
+
+            <mat-error *ngIf="available.invalid">The property availability dates are required!</mat-error>
           </mat-form-field>
 
           <div fxLayoutAlign="space-between">
@@ -118,7 +121,7 @@
         </mat-card>
       </mat-step>
 
-      <mat-step label="Location" [stepControl]="location">
+      <mat-step label="Location" [stepControl]="location" [editable]="!isLoading">
         <mat-card fxLayout="column" formGroupName="location">
           <mat-card-title>Location</mat-card-title>
 
@@ -166,13 +169,6 @@
             </mat-hint>
           </mat-form-field>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Floor</mat-label>
-            <input matInput type="number" [formControl]="floor"/>
-
-            <mat-error>{{ getError(floor, 'Floor') }}</mat-error>
-          </mat-form-field>
-
           <div fxLayoutAlign="space-between">
             <button mat-stroked-button type="button" (click)="stepper.previous()">
               <mat-icon inline>navigate_before</mat-icon>
@@ -190,13 +186,14 @@
         </mat-card>
       </mat-step>
 
-      <mat-step label="Details" [stepControl]="details">
+      <mat-step label="Details" [stepControl]="details" [editable]="!isLoading">
         <mat-card fxLayout="column" formGroupName="details">
           <mat-card-title>Details</mat-card-title>
 
           <mat-form-field appearance="outline">
             <mat-label>Description</mat-label>
-            <textarea matInput rows="6" [formControl]="description"></textarea>
+            <textarea matInput rows="6" [formControl]="description"
+                      [disabled]="isLoading"></textarea>
 
             <mat-error>{{ getError(description, 'Description') }}</mat-error>
 
@@ -207,16 +204,17 @@
 
           <div class="mat-form-field-wrapper">
             <input #imageInput type="file" accept="image/*"
-                   [formControl]="images" multiple hidden />
+                   (change)="getInputFiles(imageInput)" multiple hidden />
 
             <div fxLayout="column" fxLayoutGap="8px">
               <mat-chip-list>
-                <mat-chip *ngFor="let image of getInputFiles(imageInput)">
+                <mat-chip *ngFor="let image of formImages">
                   {{ image.name }}
                 </mat-chip>
               </mat-chip-list>
 
-              <button fxFill mat-stroked-button type="button" (click)="imageInput.click()">
+              <button fxFill mat-stroked-button type="button"
+                      [disabled]="isLoading" (click)="imageInput.click()">
                 <mat-icon inline>attach_file</mat-icon>
                 <span fxFlexOffset="0.25rem">Choose images</span>
               </button>
@@ -224,27 +222,32 @@
           </div>
 
           <div fxLayoutAlign="space-between">
-            <button mat-stroked-button type="button" (click)="stepper.previous()">
+            <button mat-stroked-button type="button"
+                    [disabled]="isLoading" (click)="stepper.previous()">
               <mat-icon inline>navigate_before</mat-icon>
               <span fxFlexOffset="0.25rem">Back</span>
             </button>
 
             <div fxLayout="row" fxLayoutGap="1rem">
-              <button mat-flat-button color="warn"
-                      type="reset" (click)="stepper.reset()">
+              <button mat-flat-button color="warn" type="reset"
+                      [disabled]="isLoading" (click)="stepper.reset()">
                 <mat-icon inline>close</mat-icon>
                 <span fxFlexOffset="0.25rem">Reset</span>
               </button>
 
               <div [matTooltip]="addForm.invalid ? 'Provide all the required fields!' : ''">
-                <button mat-flat-button color="primary"
-                        type="submit" [disabled]="addForm.invalid">
+                <button mat-flat-button color="primary" type="submit"
+                        [disabled]="addForm.invalid || isLoading">
                   <span>Submit</span>
                   <mat-icon inline fxFlexOffset="0.25rem">navigate_next</mat-icon>
                 </button>
               </div>
             </div>
           </div>
+
+          <mat-card-footer *ngIf="isLoading" fxFlexOffset="1rem">
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+          </mat-card-footer>
         </mat-card>
       </mat-step>
     </mat-stepper>
@@ -256,8 +259,8 @@
     <mat-card-title fxFlexOffset="16rem">You must be logged in to be able to add your own properties!</mat-card-title>
 
     <mat-card-subtitle>
-      <a class="link" routerLink="/user/login">Login</a> to your account or
-      <a class="link" routerLink="/user/register">register</a> if you don't have one!
+      <a class="accent" routerLink="/users/login"><b>Login</b></a> to your account or
+      <a class="accent" routerLink="/users/register"><b>register</b></a> if you don't have one!
     </mat-card-subtitle>
   </div>
 </ng-template>

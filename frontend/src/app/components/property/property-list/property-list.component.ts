@@ -9,17 +9,18 @@ import { PropertyService }   from '../../../services';
   styleUrls: ['./property-list.component.scss']
 })
 export class PropertyListComponent implements OnInit {
-  forRent = true;
+  forRent = false;
   isAsc   = true;
 
   properties: IProperty[] = [];
+  isLoaded = false;
 
   constructor(private readonly _route   : ActivatedRoute,
               private readonly _property: PropertyService) { }
 
   ngOnInit() {
     if (this._route.snapshot.url.toString())
-      this.forRent = false;
+      this.forRent = true;
 
     this.fetchProperties();
   }
@@ -28,11 +29,17 @@ export class PropertyListComponent implements OnInit {
     this._property
         .getAll(this.forRent)
         .subscribe(
-          properties => this.properties = properties,
-          error      => console.error(error)
+          properties => {
+            this.properties = properties;
+            this.isLoaded = true;
+          },
+          error => {
+            console.error(error);
+            this.isLoaded = true;
+          }
         );
   }
 
-  trackById   = (index: number) => this.properties[index].id;
-  reverseSort = ()              => this.isAsc = !this.isAsc;
+  trackById   = (index: number, item: IProperty) => item._id;
+  reverseSort = () => this.isAsc = !this.isAsc;
 }

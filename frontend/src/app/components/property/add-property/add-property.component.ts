@@ -1,8 +1,22 @@
-import { Component }                                           from '@angular/core';
-import { Router }                                              from '@angular/router';
-import { FormBuilder, FormControl, FormGroup, Validators }                  from '@angular/forms';
-import { SnackBarService, PropertyService, ValidationService, UserService } from '../../../services';
-import { PropertyType, PropertyFurnishing }                                 from '../../../interfaces';
+import { Component }  from '@angular/core';
+import { Router }     from '@angular/router';
+
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators
+} from '@angular/forms';
+
+import {
+  ImageService,
+  SnackBarService,
+  PropertyService,
+  ValidationService,
+  UserService
+} from '../../../services';
+
+import { PropertyType, PropertyFurnishing } from '../../../interfaces';
 
 @Component({
   selector: 'app-add-property',
@@ -25,14 +39,11 @@ export class AddPropertyComponent {
   readonly minStateLength = 4;
   readonly maxStateLength = 128;
 
-  readonly minCityLength = 4;
+  readonly minCityLength = 3;
   readonly maxCityLength = 128;
 
   readonly minStreetLength = 4;
   readonly maxStreetLength = 64;
-
-  readonly minFloor = 0;
-  readonly maxFloor = 128;
 
   readonly minDescriptionLength = 32;
   readonly maxDescriptionLength = 1024;
@@ -108,12 +119,6 @@ export class AddPropertyComponent {
         Validators.required,
         Validators.minLength(this.minStreetLength),
         Validators.maxLength(this.maxStreetLength)
-      ]],
-
-      floor: [null, [
-        Validators.pattern(/^\d*$/),
-        Validators.min(this.minFloor),
-        Validators.max(this.maxFloor)
       ]]
     }),
 
@@ -121,18 +126,22 @@ export class AddPropertyComponent {
       description: [null, [
         Validators.minLength(this.minDescriptionLength),
         Validators.maxLength(this.maxDescriptionLength)
-      ]],
-
-      images: [[], []]
+      ]]
     })
   });
+
+  formImages: File[] = [];
+  isLoading = false;
 
   constructor(private readonly _formBuilder: FormBuilder,
               private readonly _router     : Router,
               private readonly _snackBar   : SnackBarService,
               private readonly _property   : PropertyService,
+              private readonly _image      : ImageService,
               private readonly _user       : UserService,
-              private readonly _validation : ValidationService) { }
+              private readonly _validation : ValidationService) {
+    this.requireGroupByControlValue(this.available, this.forRent);
+  }
 
   // region Getters
   get main()        { return this.addForm  .get('main')        as FormGroup;   }
@@ -151,31 +160,64 @@ export class AddPropertyComponent {
   get state()       { return this.location .get('state')       as FormControl; }
   get city()        { return this.location .get('city')        as FormControl; }
   get street()      { return this.location .get('street')      as FormControl; }
-  get floor()       { return this.location .get('floor')       as FormControl; }
   get description() { return this.details  .get('description') as FormControl; }
-  get images()      { return this.details  .get('images')      as FormControl; }
-
   get token()       { return this._user.token;                                 }
   // endregion
 
   onSubmit() {
     if (this.addForm.valid) {
       const value = this.addForm.value;
+      this.isLoading = true;
 
-      this._property.add({
-        ...value.main,
-        ...value.rent,
-        ...value.location,
-        ...value.details
-      }).subscribe(error => console.log(error));
+      this._property
+          .create({
+            ...value.main,
+            ...value.rent,
+            ...value.location,
+            ...value.details
+          })
+          .subscribe(
+            next => {
+              this._image
+                  .uploadImages(next._id, this.formImages)
+                  .subscribe(
+                    _ => {
+                      this.isLoading = false;
 
-      if (this.forRent.value)
-        this._router.navigate(['/']).then();
-      else
-        this._router.navigate(['/rent-property']).then();
+                      if (this.forRent.value)
+                        this._router.navigate(['/rent-property']).then();
+                      else
+                        this._router.navigate(['/']).then();
 
-      this._snackBar.open('You have successfully added the property!');
+                      this._snackBar.open('You have successfully added the property!');
+                    },
+                    error => {
+                      this.isLoading = false;
+                      console.error(error);
+                    }
+                  );
+            },
+            error => {
+              this.isLoading = false;
+              console.error(error);
+            }
+          );
     }
+  }
+
+  requireGroupByControlValue(formGroup: FormGroup, formControl: FormControl) {
+    formControl.valueChanges.subscribe(value => {
+      const controls = formGroup.controls;
+
+      Object.keys(controls).forEach(key => {
+        if (value)
+          controls[key].setValidators(Validators.required);
+        else
+          controls[key].removeValidators(Validators.required);
+
+        controls[key].updateValueAndValidity();
+      });
+    });
   }
 
   getInputFiles(fileInput: HTMLInputElement) {
@@ -191,7 +233,7 @@ export class AddPropertyComponent {
       }
     }
 
-    return result;
+    this.formImages = result;
   }
 
   getError(control: FormControl, label: string) {

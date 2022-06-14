@@ -25,13 +25,19 @@
 </div>
 
 <div fxLayout="row wrap" fxLayoutGap="2rem grid">
-  <div class="wrapper"
-       fxFlex.gt-lg="25%" fxFlex.gt-md="33.3%"
-       fxFlex.gt-sm="50%" fxFlex.gt-xs="100%"
-       *ngFor="let property of properties
-       | filter: 'city': city.value
-       | sort: sortBy.value: isAsc;
-       trackBy: trackById">
-      <app-property-card [property]="property"></app-property-card>
-  </div>
+  <ng-container *ngIf="isLoaded; else isLoading">
+    <div class="wrapper"
+         fxFlex.gt-lg="25%" fxFlex.gt-md="33.3%"
+         fxFlex.gt-sm="50%" fxFlex.gt-xs="100%"
+         *ngFor="let property of properties
+         | filter: 'city': city.value
+         | sort: sortBy.value: isAsc;
+         trackBy: trackById">
+      <app-property-card [property]="property" (click)="isLoaded = false"></app-property-card>
+    </div>
+  </ng-container>
+
+  <ng-template #isLoading>
+    <mat-spinner></mat-spinner>
+  </ng-template>
 </div>

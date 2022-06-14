@@ -12,7 +12,7 @@ export enum PropertyFurnishing {
 }
 
 export interface IProperty {
-  id: number,
+  _id: string,
   owner: IUser,
 
   title: string,
@@ -32,7 +32,6 @@ export interface IProperty {
   state: string,
   city: string,
   street: string,
-  floor?: number,
 
   description?: string,
   images: string[]

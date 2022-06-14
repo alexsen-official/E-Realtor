@@ -18,12 +18,12 @@ const routes = [
     resolve: { property: ResolverService }
   },
 
-  { path: '',              component: PropertyListComponent },
-  { path: 'rent-property', component: PropertyListComponent },
-  { path: 'add-property',  component: AddPropertyComponent  },
-  { path: 'user/login',    component: UserLoginComponent    },
-  { path: 'user/register', component: UserRegisterComponent },
-  { path: '**',            component: PropertyListComponent }
+  { path: '',               component: PropertyListComponent },
+  { path: 'rent-property',  component: PropertyListComponent },
+  { path: 'add-property',   component: AddPropertyComponent  },
+  { path: 'users/login',    component: UserLoginComponent    },
+  { path: 'users/register', component: UserRegisterComponent },
+  { path: '**',             component: PropertyListComponent }
 ];
 
 @NgModule({

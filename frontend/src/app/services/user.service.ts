@@ -1,7 +1,6 @@
 import { HttpClient }      from '@angular/common/http';
 import { Injectable }      from '@angular/core';
-import { Router }          from '@angular/router';
-import { map }             from 'rxjs';
+import { environment }     from '../../environments/environment';
 import { IUser }           from '../interfaces';
 import { SnackBarService } from './snack-bar.service';
 
@@ -9,51 +8,39 @@ import { SnackBarService } from './snack-bar.service';
   providedIn: 'root'
 })
 export class UserService {
-  constructor(private readonly _http    : HttpClient,
-              private readonly _snackBar: SnackBarService,
-              private readonly _router  : Router) { }
+  readonly apiUrl = environment.apiUrl;
+
+  constructor(private readonly _http: HttpClient,
+              private readonly _snackBar: SnackBarService) { }
 
   get token() { return JSON.parse(localStorage.getItem('token') || 'null') as IUser; }
 
-  find(user: IUser) {
-    return this._http
-               .get<IUser[]>('http://localhost:3000/users')
-               .pipe(map(users => users.find(
-                 token => token.email    === user.email
-                          && token.password === user.password
-               )));
+  get(id: string) {
+    return this._http.get<IUser>(`${ this.apiUrl }/users/${ id }`);
   }
 
-  add(user: IUser) {
-    return this._http.post<IUser>('http://localhost:3000/users', user);
+  getAll() {
+    return this._http.get<IUser[]>(`${ this.apiUrl }/users`);
+  }
+
+  create(user: IUser) {
+    return this._http.post<IUser>(`${ this.apiUrl }/users`, user);
   }
 
   login(user: IUser) {
-    this.find(user).subscribe(
-      token => {
-        if (token) {
-          localStorage.setItem('token', JSON.stringify(token));
+    return this._http.post<IUser>(`${ this.apiUrl }/users/login`, user);
+  }
 
-          this._router.navigate(['/']).then();
-          this._snackBar.open('You have successfully logged in!');
-        }
-        else {
-          this._snackBar.open('Invalid email address or password!');
-        }
-      },
-      error => console.error(error)
-    );
+  update(user: IUser) {
+    return this._http.put<IUser>(`${ this.apiUrl }/users`, user);
+  }
+
+  delete(id: string) {
+    return this._http.delete<IUser>(`${ this.apiUrl }/users/${ id }`);
   }
 
   logout() {
     localStorage.removeItem('token');
     this._snackBar.open('You have successfully logged out!');
-  }
-
-  register(user: IUser) {
-    this.add(user).subscribe(
-      token => this.login(token),
-      error => console.error(error)
-    );
   }
 }

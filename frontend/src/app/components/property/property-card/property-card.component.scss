@@ -8,6 +8,11 @@ a {
   object-fit: cover;
 }
 
+.mat-spinner {
+  scale: 0.4;
+  margin: calc((18rem - 100px) / 2) auto !important;
+}
+
 .mat-card-subtitle {
   margin-bottom: 0;
 }

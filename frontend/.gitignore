@@ -4,6 +4,12 @@
 /out-tsc
 /bazel-out
 
+# Backend
+/backend/node_modules
+/backend/uploads
+/backend/dist
+/backend/.env
+
 # Node
 /node_modules
 npm-debug.log

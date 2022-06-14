@@ -1,6 +1,7 @@
 import { Component }                            from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { UserService, ValidationService }       from '../../../services';
+import { Router }                                          from '@angular/router';
+import { SnackBarService, UserService, ValidationService } from '../../../services';
 
 @Component({
   selector: 'app-user-register',
@@ -46,9 +47,13 @@ export class UserRegisterComponent {
     ]]
   });
 
+  isLoading = false;
+
   constructor(private readonly _formBuilder: FormBuilder,
+              private readonly _router     : Router,
               private readonly _user       : UserService,
-              private readonly _validation : ValidationService) { }
+              private readonly _validation : ValidationService,
+              private readonly _snackBar   : SnackBarService) { }
 
   get name()     { return this.registerForm.get('name')     as FormControl; }
   get email()    { return this.registerForm.get('email')    as FormControl; }
@@ -56,11 +61,38 @@ export class UserRegisterComponent {
   get password() { return this.registerForm.get('password') as FormControl; }
 
   onSubmit() {
-    if (this.registerForm.valid)
-      this._user.register(this.registerForm.value);
+    if (this.registerForm.valid) {
+      this.isLoading = true;
+
+      this._user
+          .create(this.registerForm.value)
+          .subscribe(
+            _ => {
+              this.isLoading = false;
+
+              this._router.navigate(['/users/login']).then();
+              this._snackBar.open('You have successfully registered!');
+            },
+            _ => {
+              this.isLoading = false;
+              this._snackBar.open('The user already exists!');
+            }
+          );
+    }
   }
 
   getError(control: FormControl, label: string) {
     return this._validation.getError(control, label);
+  }
+
+  isVisible(input: HTMLInputElement) {
+    return input.type === 'password';
+  }
+
+  toggleVisibility(input: HTMLInputElement) {
+    if (this.isVisible(input))
+      input.type = 'text';
+    else
+      input.type = 'password';
   }
 }

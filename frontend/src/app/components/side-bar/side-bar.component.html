@@ -19,13 +19,13 @@
   </a>
 
   <ng-container *ngIf="!token; else unauthorized">
-    <a mat-button routerLink="/user/register"
+    <a mat-button routerLink="/users/register"
        routerLinkActive="mat-flat-button">
       <mat-icon inline>person_add</mat-icon>
       <span fxFlexOffset="0.25rem">Register</span>
     </a>
 
-    <a mat-button routerLink="/user/login"
+    <a mat-button routerLink="/users/login"
        routerLinkActive="mat-flat-button">
       <mat-icon inline>exit_to_app</mat-icon>
       <span fxFlexOffset="0.25rem">Login</span>
